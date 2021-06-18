@@ -30,7 +30,7 @@ class ExpVrach
     private string $fio;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ExpLpu")
+     * @ORM\ManyToOne(targetEntity="ExpLpu", inversedBy="vrach")
      * @ORM\JoinColumn(name="lpu_id", referencedColumnName="lpu_id")
      */
     private ?ExpLpu $lpu;

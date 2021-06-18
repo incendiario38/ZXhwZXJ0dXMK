@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            {% if app.user.vrach %}
+                {% set fio = app.user.vrach.fio %}
+                {% set lpu = app.user.vrach.lpu.name %}
+                {% set prof = app.user.vrach.prof %}
+                {% set snils = app.user.vrach.snils %}
+            {% else %}
+                {% set fio = 'Незаполнено' %}
+                {% set lpu = 'Незаполнено' %}
+                {% set prof = 'Незаполнено' %}
+                {% set snils = 'Незаполнено' %}
+            {% endif %}
+
+            {% include 'inc/profile.html.twig' %}
+        </div>
+    </div>
+
+{{ form_start(form) }}
+{{ form_rest(form) }}
+
+
+{% endblock %}
