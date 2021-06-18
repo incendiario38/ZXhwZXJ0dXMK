@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Welcome!{% endblock %}</title>
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {% block stylesheets %}
+        <!-- Bootstrap CSS -->
+        {% if app.environment == 'dev' %}
+            <link rel="stylesheet" href="{{ asset('assets/bootstrap-4.6.0-dist/css/bootstrap.css') }}"/>
+        {% else %}
+            <link rel="stylesheet" href="{{ asset('assets/bootstrap-4.6.0-dist/css/bootstrap.min.css') }}"/>
+        {% endif %}
+
+        {% block substylesheets %}{% endblock %}
+    {% endblock %}
+</head>
+<body class="d-flex flex-column h-100">
+{% block body %}{% endblock %}
+
+
+
+{% block javascripts %}
+    {% if app.environment == 'dev' %}
+        <script src="{{ asset('assets/jquery-3.6.0-dist/js/jquery.js') }}"></script>
+        <script src="{{ asset('assets/bootstrap-4.6.0-dist/js/bootstrap.bundle.js') }}"></script>
+    {% else %}
+        <script src="{{ asset('assets/jquery-3.6.0-dist/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js') }}"></script>
+    {% endif %}
+
+    {% block subjavascripts %}{% endblock %}
+{% endblock %}
+
+</body>
 </html>
