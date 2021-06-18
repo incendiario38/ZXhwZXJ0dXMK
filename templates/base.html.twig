@@ -32,6 +32,11 @@
     {% endblock %}
 </head>
 <body class="{% block body_class %}d-flex flex-column h-100{% endblock %}">
+
+{% if app.user %}
+    {% include 'inc/header.html.twig' %}
+{% endif %}
+
 {% block body %}{% endblock %}
 
 
