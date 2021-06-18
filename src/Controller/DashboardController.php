@@ -16,8 +16,8 @@ class DashboardController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Role::DOCTOR);
 
-        return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+        return $this->render('dashboard/doctor.html.twig', [
+            'title' => 'Кабинет врача',
         ]);
     }
 
@@ -29,8 +29,8 @@ class DashboardController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Role::EXPERT);
 
-        return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+        return $this->render('dashboard/expert.html.twig', [
+            'title' => 'Кабинет эксперта',
         ]);
     }
 }
