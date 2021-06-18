@@ -34,3 +34,14 @@
 .show > .btn-first.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(49, 48, 179, 0.5);
 }
+
+.text-first {
+    color: #3231b1;
+
+    transition: text-shadow .3s;
+}
+
+.text-first:hover, .text-first:active {
+    color: #2424a0;
+    text-shadow: 0 0 .2rem rgba(49, 48, 179, 0.2);
+}
