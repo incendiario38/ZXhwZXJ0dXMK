@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,13 +25,6 @@ class ExpSluch
      * @ORM\SequenceGenerator(sequenceName="exp_sluch_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="id_pers", type="integer", nullable=true)
-     */
-    private $idPers;
 
     /**
      * @var int|null
@@ -95,27 +90,40 @@ class ExpSluch
     private $stage;
 
     /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpPatient", inversedBy="sluch")
+     * @ORM\JoinColumn(name="id_pers",referencedColumnName="id_pers")
+     */
+    private $patient;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ExpSluchUsl", mappedBy="sluch")
+     */
+    private $usl;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ExpSluchLek", mappedBy="sluch")
+     */
+    private $lek;
+
+    /**
      * @var int|null
      *
      * @ORM\Column(name="n_med_card", type="integer", nullable=true)
      */
     private $nMedCard;
 
+    public function __construct()
+    {
+        $this->usl = new ArrayCollection();
+        $this->lek = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdPers(): ?int
-    {
-        return $this->idPers;
-    }
-
-    public function setIdPers(?int $idPers): self
-    {
-        $this->idPers = $idPers;
-
-        return $this;
     }
 
     public function getLpuId(): ?int
@@ -234,6 +242,78 @@ class ExpSluch
     public function setNMedCard(?int $nMedCard): self
     {
         $this->nMedCard = $nMedCard;
+
+        return $this;
+    }
+
+    public function getPatient(): ?ExpPatient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?ExpPatient $patient): self
+    {
+        $this->patient = $patient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpSluchUsl[]
+     */
+    public function getUsl(): Collection
+    {
+        return $this->usl;
+    }
+
+    public function addUsl(ExpSluchUsl $usl): self
+    {
+        if (!$this->usl->contains($usl)) {
+            $this->usl[] = $usl;
+            $usl->setSluch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsl(ExpSluchUsl $usl): self
+    {
+        if ($this->usl->removeElement($usl)) {
+            // set the owning side to null (unless already changed)
+            if ($usl->getSluch() === $this) {
+                $usl->setSluch(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpSluchLek[]
+     */
+    public function getLek(): Collection
+    {
+        return $this->lek;
+    }
+
+    public function addLek(ExpSluchLek $lek): self
+    {
+        if (!$this->lek->contains($lek)) {
+            $this->lek[] = $lek;
+            $lek->setSluch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLek(ExpSluchLek $lek): self
+    {
+        if ($this->lek->removeElement($lek)) {
+            // set the owning side to null (unless already changed)
+            if ($lek->getSluch() === $this) {
+                $lek->setSluch(null);
+            }
+        }
 
         return $this;
     }

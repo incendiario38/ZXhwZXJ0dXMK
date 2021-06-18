@@ -30,11 +30,11 @@ class ExpSluchLek
     private $lekName;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="id_sluch", type="integer", nullable=true)
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpSluch", inversedBy="lek")
+     * @ORM\JoinColumn(name="id_sluch",referencedColumnName="id")
      */
-    private $idSluch;
+    protected $sluch;
 
     /**
      * @var int|null
@@ -60,18 +60,6 @@ class ExpSluchLek
         return $this;
     }
 
-    public function getIdSluch(): ?int
-    {
-        return $this->idSluch;
-    }
-
-    public function setIdSluch(?int $idSluch): self
-    {
-        $this->idSluch = $idSluch;
-
-        return $this;
-    }
-
     public function getStatus(): ?int
     {
         return $this->status;
@@ -80,6 +68,18 @@ class ExpSluchLek
     public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSluch(): ?ExpSluch
+    {
+        return $this->sluch;
+    }
+
+    public function setSluch(?ExpSluch $sluch): self
+    {
+        $this->sluch = $sluch;
 
         return $this;
     }

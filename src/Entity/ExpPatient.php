@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -72,6 +74,17 @@ class ExpPatient
      * @ORM\Column(name="enp", type="string", nullable=true)
      */
     private $enp;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ExpSluch",mappedBy="patient",fetch="EAGER")
+     */
+    private $sluch;
+
+    public function __construct()
+    {
+        $this->sluch = new ArrayCollection();
+    }
 
     public function getIdPers(): ?int
     {
@@ -158,6 +171,36 @@ class ExpPatient
     public function setEnp(?string $enp): self
     {
         $this->enp = $enp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpSluch[]
+     */
+    public function getSluch(): Collection
+    {
+        return $this->sluch;
+    }
+
+    public function addSluch(ExpSluch $sluch): self
+    {
+        if (!$this->sluch->contains($sluch)) {
+            $this->sluch[] = $sluch;
+            $sluch->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSluch(ExpSluch $sluch): self
+    {
+        if ($this->sluch->removeElement($sluch)) {
+            // set the owning side to null (unless already changed)
+            if ($sluch->getPatient() === $this) {
+                $sluch->setPatient(null);
+            }
+        }
 
         return $this;
     }
