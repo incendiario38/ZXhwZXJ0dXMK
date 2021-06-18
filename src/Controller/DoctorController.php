@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\ExpSluch;
 use App\Entity\Role;
 use App\Form\DoctorSluchForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +21,6 @@ class DoctorController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Role::DOCTOR);
 
-        dump($this->getUser());
-
         $newSluchForm = $this->createForm(
             DoctorSluchForm::class,
             null,
@@ -32,6 +31,15 @@ class DoctorController extends AbstractController
         );
 
         $newSluchForm->handleRequest($request);
+
+        if ($newSluchForm->isSubmitted() && $newSluchForm->isValid()) {
+            /** @var ExpSluch $data */
+            $data = $newSluchForm->getData();
+            $data->setVrach($this->getUser()->getVrach());
+            $data->setLpuId($this->getUser()->getVrach()->getLpu()->getLpuId());
+            $this->getDoctrine()->getManager()->persist($data);
+            $this->getDoctrine()->getManager()->flush();
+        }
 
         return $this->render('doctor/newsluch.html.twig', [
             'title' => 'Кабинет врача',

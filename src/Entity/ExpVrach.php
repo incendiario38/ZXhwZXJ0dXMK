@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +46,17 @@ class ExpVrach
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
     private ?User $user;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ExpSluch", mappedBy="vrach")
+     */
+    private $sluch;
+
+    public function __construct()
+    {
+        $this->sluch = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -161,6 +174,36 @@ class ExpVrach
     public function setUser(?User $user): ExpVrach
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpSluch[]
+     */
+    public function getSluch(): Collection
+    {
+        return $this->sluch;
+    }
+
+    public function addSluch(ExpSluch $sluch): self
+    {
+        if (!$this->sluch->contains($sluch)) {
+            $this->sluch[] = $sluch;
+            $sluch->setVrach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSluch(ExpSluch $sluch): self
+    {
+        if ($this->sluch->removeElement($sluch)) {
+            // set the owning side to null (unless already changed)
+            if ($sluch->getVrach() === $this) {
+                $sluch->setVrach(null);
+            }
+        }
 
         return $this;
     }

@@ -25,13 +25,6 @@ class ExpSluchUsl
     private $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="usl_code", type="string", length=255, nullable=true)
-     */
-    private $uslCode;
-
-    /**
      * @var DateTime|null
      *
      * @ORM\Column(name="date_usl", type="datetime", nullable=true)
@@ -45,21 +38,16 @@ class ExpSluchUsl
      */
     protected $sluch;
 
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpUsl")
+     * @ORM\JoinColumn(name="usl_code",referencedColumnName="usl_code")
+     */
+    protected $usl;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUslCode(): ?string
-    {
-        return $this->uslCode;
-    }
-
-    public function setUslCode(?string $uslCode): self
-    {
-        $this->uslCode = $uslCode;
-
-        return $this;
     }
 
     public function getDateUsl(): ?DateTimeInterface
@@ -82,6 +70,18 @@ class ExpSluchUsl
     public function setSluch(?ExpSluch $sluch): self
     {
         $this->sluch = $sluch;
+
+        return $this;
+    }
+
+    public function getUsl(): ?ExpUsl
+    {
+        return $this->usl;
+    }
+
+    public function setUsl(?ExpUsl $usl): self
+    {
+        $this->usl = $usl;
 
         return $this;
     }

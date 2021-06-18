@@ -22,7 +22,7 @@ class ExpSluch
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="exp_sluch_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="exp_sluch_id_seq", allocationSize=1, initialValue=6)
      */
     private $id;
 
@@ -62,13 +62,6 @@ class ExpSluch
     private $uslOk = '0';
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mkb", type="string", length=10, nullable=true)
-     */
-    private $mkb;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="forma", type="integer", nullable=true)
@@ -98,15 +91,29 @@ class ExpSluch
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="ExpSluchUsl", mappedBy="sluch")
+     * @ORM\OneToMany(targetEntity="ExpSluchUsl", mappedBy="sluch", cascade={"persist"})
      */
     private $usl;
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="ExpSluchLek", mappedBy="sluch")
+     * @ORM\OneToMany(targetEntity="ExpSluchLek", mappedBy="sluch", cascade={"persist"})
      */
     private $lek;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpVrach", inversedBy="sluch")
+     * @ORM\JoinColumn(name="id_vrach",referencedColumnName="id")
+     */
+    private $vrach;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpMkb10", inversedBy="sluch")
+     * @ORM\JoinColumn(name="mkb",referencedColumnName="kodmkb")
+     */
+    private $mkb;
 
     /**
      * @var int|null
@@ -182,18 +189,6 @@ class ExpSluch
     public function setUslOk(?int $uslOk): self
     {
         $this->uslOk = $uslOk;
-
-        return $this;
-    }
-
-    public function getMkb(): ?string
-    {
-        return $this->mkb;
-    }
-
-    public function setMkb(?string $mkb): self
-    {
-        $this->mkb = $mkb;
 
         return $this;
     }
@@ -314,6 +309,30 @@ class ExpSluch
                 $lek->setSluch(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVrach(): ?ExpVrach
+    {
+        return $this->vrach;
+    }
+
+    public function setVrach(?ExpVrach $vrach): self
+    {
+        $this->vrach = $vrach;
+
+        return $this;
+    }
+
+    public function getMkb(): ?ExpMkb10
+    {
+        return $this->mkb;
+    }
+
+    public function setMkb(?ExpMkb10 $mkb): self
+    {
+        $this->mkb = $mkb;
 
         return $this;
     }

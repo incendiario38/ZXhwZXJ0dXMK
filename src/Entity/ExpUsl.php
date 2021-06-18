@@ -18,7 +18,7 @@ class ExpUsl
      * @var string
      *
      * @ORM\Column(name="id", type="decimal", precision=10, scale=0, nullable=false)
-     * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="exp_usl_id_seq", allocationSize=1, initialValue=1)
      */
@@ -26,7 +26,7 @@ class ExpUsl
 
     /**
      * @var string|null
-     *
+     * @ORM\Id
      * @ORM\Column(name="usl_code", type="string", length=20, nullable=true)
      */
     private $uslCode;

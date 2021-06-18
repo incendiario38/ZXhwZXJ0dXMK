@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,7 +18,7 @@ class ExpMkb10
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="exp_mkb10_id_seq", allocationSize=1, initialValue=1)
      */
@@ -24,7 +26,7 @@ class ExpMkb10
 
     /**
      * @var string|null
-     *
+     * @ORM\Id
      * @ORM\Column(name="kodmkb", type="string", length=10, nullable=true)
      */
     private $kodmkb;
@@ -49,6 +51,17 @@ class ExpMkb10
      * @ORM\Column(name="enable", type="integer", nullable=true)
      */
     private $enable;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="ExpSluch", mappedBy="mkb")
+     */
+    private $sluch;
+
+    public function __construct()
+    {
+        $this->sluch = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,6 +112,43 @@ class ExpMkb10
     public function setEnable(?int $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpSluch[]
+     */
+    public function getSluch(): Collection
+    {
+        return $this->sluch;
+    }
+
+    public function addSluch(ExpSluch $sluch): self
+    {
+        if (!$this->sluch->contains($sluch)) {
+            $this->sluch[] = $sluch;
+            $sluch->setMkb($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSluch(ExpSluch $sluch): self
+    {
+        if ($this->sluch->removeElement($sluch)) {
+            // set the owning side to null (unless already changed)
+            if ($sluch->getMkb() === $this) {
+                $sluch->setMkb(null);
+            }
+        }
 
         return $this;
     }
