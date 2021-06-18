@@ -3,18 +3,21 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            {% if app.user.vrach %}
+                {% set fio = app.user.vrach.fio %}
+                {% set lpu = app.user.vrach.lpu.name %}
+                {% set prof = app.user.vrach.prof %}
+                {% set snils = app.user.vrach.snils %}
+            {% else %}
+                {% set fio = 'Незаполнено' %}
+                {% set lpu = 'Незаполнено' %}
+                {% set prof = 'Незаполнено' %}
+                {% set snils = 'Незаполнено' %}
+            {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/user413.test/httpdocs/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/user413.test/httpdocs/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-    </ul>
-</div>
+            {%  include 'inc/profile.html.twig' %}
+        </div>
+    </div>
 {% endblock %}
