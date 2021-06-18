@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -43,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string Соль
      */
     private $salt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="ExpVrach", mappedBy="user")
+     */
+    private ?ExpVrach $vrach;
 
 
     public function getId(): ?int
@@ -132,5 +136,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return ExpVrach|null
+     */
+    public function getVrach(): ?ExpVrach
+    {
+        return $this->vrach;
+    }
+
+    /**
+     * @param ExpVrach|null $vrach
+     *
+     * @return User
+     */
+    public function setVrach(?ExpVrach $vrach): User
+    {
+        $this->vrach = $vrach;
+
+        return $this;
     }
 }
