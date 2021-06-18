@@ -2,45 +2,47 @@
 
 {% block title %}Войти{% endblock %}
 
-{% block substylesheets %}<link rel="stylesheet" href="{{ asset('css/login.css') }}"/>{% endblock %}
+{% block substylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}"/>{% endblock %}
 
-{% block body_class %}text-center{% endblock %}
+{% block body_class %}{% endblock %}
 
 {% block body %}
     <form method="post" class="form-login">
-        <img class="mb-4" src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72"
-             height="72">
+        <div class="text-center mb-4">
+            <object type="image/svg+xml"
+                    data="{{ asset('img/logo.svg') }}"
+                    width="256px"
+                    height="256px"
+            >
+                <img src="{{ asset('img/logo.png') }}" alt="ИС Экспертус">
+            </object>
+        </div>
 
-        {% if app.user %}
-            <h1 class="h3 mb-3 font-weight-normal">МИС Экспертус</h1>
-            <div class="mb-3">
-                Вы вошли в систему как {{ app.user.username }}, <a href="{{ path('app_logout') }}">Выйти</a>
-            </div>
-
-        {% else %}
-            <h1 class="h3 mb-3 font-weight-normal">Войти в МИС Экспертус</h1>
-
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
-            <label for="inputUsername" class="sr-only">Имя пользователя</label>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="form-label-group">
             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
                    autocomplete="username" required autofocus placeholder="Имя пользователя...">
-            <label for="inputPassword" class="sr-only">Пароль</label>
+            <label for="inputUsername">Имя пользователя</label>
+        </div>
+
+        <div class="form-label-group">
             <input type="password" name="password" id="inputPassword" class="form-control"
                    autocomplete="current-password"
                    required placeholder="Пароль...">
+            <label for="inputPassword">Пароль</label>
+        </div>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Запомнить меня
-                </label>
-            </div>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Запомнить меня
+            </label>
+        </div>
 
-            <button class="btn btn-lg btn-first btn-block" type="submit">Войти</button>
-        {% endif %}
+        <button class="btn btn-lg btn-first btn-block" type="submit">Войти</button>
     </form>
 {% endblock %}
