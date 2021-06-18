@@ -41,6 +41,23 @@
         {% include 'inc/header.html.twig' %}
     {% endif %}
 
+    {% if breadcrumbs is defined and breadcrumbs and breadcrumbs|length > 0 %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item{% if breadcrumb.class is defined and breadcrumb.class %}{{ breadcrumb.class }}{% endif %}">
+                        {% if breadcrumb.url is defined and breadcrumb.url %}
+                            <a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
+                        {% else %}
+                            <span title="{{ breadcrumb.name }}">{{ breadcrumb.name }}</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        </nav>
+    {% endif %}
+
+
     {% block body %}{% endblock %}
 
 </div>

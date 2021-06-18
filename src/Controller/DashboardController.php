@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\ExpVrach;
 use App\Entity\Role;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,8 +18,14 @@ class DashboardController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Role::DOCTOR);
 
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $cntSluch = $this->getDoctrine()->getRepository(ExpVrach::class)->cntExpSluch($user->getVrach());
+
         return $this->render('dashboard/doctor.html.twig', [
             'title' => 'Кабинет врача',
+            'cnt_sluch' => $cntSluch,
         ]);
     }
 
