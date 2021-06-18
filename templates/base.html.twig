@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Welcome!{% endblock %} :: {{ '0JzQmNChINCt0LrRgdC/0LXRgNGC0YPRgQ=='|base64_decode }}</title>
 
     {% block stylesheets %}
         <!-- Bootstrap CSS -->
@@ -13,10 +13,12 @@
             <link rel="stylesheet" href="{{ asset('assets/bootstrap-4.6.0-dist/css/bootstrap.min.css') }}"/>
         {% endif %}
 
+        <link rel="stylesheet" href="{{ asset('css/btn.css') }}"/>
+
         {% block substylesheets %}{% endblock %}
     {% endblock %}
 </head>
-<body class="d-flex flex-column h-100">
+<body class="{% block body_class %}d-flex flex-column h-100{% endblock %}">
 {% block body %}{% endblock %}
 
 
