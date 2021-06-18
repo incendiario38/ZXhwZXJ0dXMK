@@ -81,6 +81,13 @@ class ExpPatient
      */
     private $sluch;
 
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="ExpLpu", inversedBy="patient")
+     * @ORM\JoinColumn(name="lpu_id",referencedColumnName="lpu_id")
+     */
+    private $lpu;
+
     public function __construct()
     {
         $this->sluch = new ArrayCollection();
@@ -201,6 +208,18 @@ class ExpPatient
                 $sluch->setPatient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLpu(): ?ExpLpu
+    {
+        return $this->lpu;
+    }
+
+    public function setLpu(?ExpLpu $lpu): self
+    {
+        $this->lpu = $lpu;
 
         return $this;
     }
