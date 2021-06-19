@@ -68,6 +68,13 @@ class ExpMkb10
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getKodmkb(): ?string
     {
         return $this->kodmkb;
@@ -112,13 +119,6 @@ class ExpMkb10
     public function setEnable(?int $enable): self
     {
         $this->enable = $enable;
-
-        return $this;
-    }
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
 
         return $this;
     }

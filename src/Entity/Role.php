@@ -6,6 +6,6 @@ namespace App\Entity;
 
 class Role
 {
-const EXPERT = 'ROLE_EXPERT';
-const DOCTOR = 'ROLE_DOCTOR';
+    const EXPERT = 'ROLE_EXPERT';
+    const DOCTOR = 'ROLE_DOCTOR';
 }

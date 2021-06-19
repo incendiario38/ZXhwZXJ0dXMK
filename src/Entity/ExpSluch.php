@@ -180,30 +180,6 @@ class ExpSluch
         return $this;
     }
 
-    public function getDbeg(): ?DateTimeInterface
-    {
-        return $this->dbeg;
-    }
-
-    public function setDbeg(?DateTimeInterface $dbeg): self
-    {
-        $this->dbeg = $dbeg;
-
-        return $this;
-    }
-
-    public function getDend(): ?DateTimeInterface
-    {
-        return $this->dend;
-    }
-
-    public function setDend(?DateTimeInterface $dend): self
-    {
-        $this->dend = $dend;
-
-        return $this;
-    }
-
     public function getUslOk(): ?int
     {
         return $this->uslOk;
@@ -370,6 +346,30 @@ class ExpSluch
                 ->atPath('dend')
                 ->addViolation();
         }
+    }
+
+    public function getDend(): ?DateTimeInterface
+    {
+        return $this->dend;
+    }
+
+    public function setDend(?DateTimeInterface $dend): self
+    {
+        $this->dend = $dend;
+
+        return $this;
+    }
+
+    public function getDbeg(): ?DateTimeInterface
+    {
+        return $this->dbeg;
+    }
+
+    public function setDbeg(?DateTimeInterface $dbeg): self
+    {
+        $this->dbeg = $dbeg;
+
+        return $this;
     }
 
 }

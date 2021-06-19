@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,7 +37,7 @@ class ExtPatient
     /**
      * @ORM\Column(name="dr", type="date")
      */
-    private \DateTime $dr;
+    private DateTime $dr;
 
     /**
      * @ORM\Column(name="mr", type="string")
@@ -135,19 +136,19 @@ class ExtPatient
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDr(): \DateTime
+    public function getDr(): DateTime
     {
         return $this->dr;
     }
 
     /**
-     * @param \DateTime $dr
+     * @param DateTime $dr
      *
      * @return ExtPatient
      */
-    public function setDr(\DateTime $dr): ExtPatient
+    public function setDr(DateTime $dr): ExtPatient
     {
         $this->dr = $dr;
 
