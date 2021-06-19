@@ -9,6 +9,7 @@ use App\Entity\ExtStd;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -78,8 +79,8 @@ class ExpKritUslType extends AbstractType
                 ],
             ]);
 
-            $builder->add('period', NumberType::class, [
-                'label' => 'Период',
+            $builder->add('period', IntegerType::class, [
+                'label' => 'Время выполнения услуги с момента поступления на лечение',
                 'attr' => [
                     'data-width' => "100%",
                     'autocomplete' => 'off',
