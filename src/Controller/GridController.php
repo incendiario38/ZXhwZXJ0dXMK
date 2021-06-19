@@ -64,8 +64,21 @@ class GridController extends AbstractController
             return new Response('Не задан идентификатор');
         }
 
+        $sluch = $this->getDoctrine()->getRepository(ExpVrach::class)->getExpSluchById($id);
+        \dump($sluch);
+
+        if ($sluch['status'] = 2) {
+            $usl = $this->getDoctrine()->getRepository(ExpVrach::class)->getUslBySluch($id);
+            $lek = $this->getDoctrine()->getRepository(ExpVrach::class)->getLekBySluch($id);
+        } else {
+            $usl = [];
+            $lek = [];
+        }
+
         return $this->render('grid/sluch_expert.html.twig', [
             'data' => $this->getDoctrine()->getRepository(ExpVrach::class)->getExpertBySluch($id),
+            'usl' => $usl,
+            'lek' => $lek,
         ]);
     }
 }

@@ -71,7 +71,11 @@ class DoctorController extends AbstractController
                     'name' => 'Кабинет врача'
                 ],
                 [
-                    'name' => 'Случай лечения'
+                    'url' => $this->generateUrl('doctor_grid'),
+                    'name' => 'Случаи лечения'
+                ],
+                [
+                    'name' => 'Редактирование случая лечения'
                 ]
             ]
         ]);
