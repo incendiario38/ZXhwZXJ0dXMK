@@ -45,7 +45,7 @@ class ExpKritUslType extends AbstractType
         ]);
 
         $builder->add('period', IntegerType::class, [
-            'label' => 'Время выполнения услуги с момента поступления на лечение',
+            'label' => 'Время выполнения услуги с момента поступления на лечение (минуты)',
             'attr' => [
                 'data-width' => "100%",
                 'autocomplete' => 'off',
