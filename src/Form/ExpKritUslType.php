@@ -41,6 +41,7 @@ class ExpKritUslType extends AbstractType
                 'class' => 'selectpicker',
                 'data-live-search' => true,
                 'autocomplete' => 'off',
+                'disabled' => $options['lock']
             ],
         ]);
 
@@ -50,6 +51,7 @@ class ExpKritUslType extends AbstractType
                 'data-width' => "100%",
                 'autocomplete' => 'off',
                 'class' => 'form-control',
+                'disabled' => $options['lock']
             ],
         ]);
     }
@@ -58,5 +60,6 @@ class ExpKritUslType extends AbstractType
     {
         $resolver->setRequired('em');
         $resolver->setRequired('std');
+        $resolver->setRequired('lock');
     }
 }
