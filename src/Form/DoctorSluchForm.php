@@ -163,8 +163,8 @@ class DoctorSluchForm extends AbstractType
         ])->add('stage', ChoiceType::class, [
             'label' => 'Степень тяжести',
             'choices' => [
-                'Нет' => 1,
-                'Тяжелая' => 2,
+                'Нет' => 0,
+                'Тяжелая' => 1,
             ],
             'multiple' => false,
             'required' => true,
@@ -177,8 +177,8 @@ class DoctorSluchForm extends AbstractType
         ])->add('phase', ChoiceType::class, [
             'label' => 'Фаза состояния',
             'choices' => [
-                'Нет' => 1,
-                'Острая' => 2,
+                'Нет' => 0,
+                'Острая' => 1,
             ],
             'multiple' => false,
             'required' => true,
