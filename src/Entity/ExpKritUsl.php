@@ -23,20 +23,6 @@ class ExpKritUsl
     private $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="code_usl", type="string", length=255, nullable=true)
-     */
-    private $codeUsl;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="id_std", type="integer", nullable=true)
-     */
-    private $idStd;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(name="period", type="integer", nullable=true)
@@ -68,29 +54,6 @@ class ExpKritUsl
         return $this->id;
     }
 
-    public function getCodeUsl(): ?string
-    {
-        return $this->codeUsl;
-    }
-
-    public function setCodeUsl(?string $codeUsl): self
-    {
-        $this->codeUsl = $codeUsl;
-
-        return $this;
-    }
-
-    public function getIdStd(): ?int
-    {
-        return $this->idStd;
-    }
-
-    public function setIdStd(?int $idStd): self
-    {
-        $this->idStd = $idStd;
-
-        return $this;
-    }
 
     public function getPeriod(): ?int
     {
