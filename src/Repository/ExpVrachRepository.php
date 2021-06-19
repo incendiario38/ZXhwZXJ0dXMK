@@ -40,8 +40,8 @@ select t.id_pers,
        t.mkb,
        CASE
            WHEN t.forma = 1 THEN 'Плановая'
-           WHEN t.forma = 1 THEN 'Экстренная'
-           WHEN t.forma = 1 THEN 'Неотложная'
+           WHEN t.forma = 2 THEN 'Экстренная'
+           WHEN t.forma = 3 THEN 'Неотложная'
            else
                'Не заполнен'
            end AS forma,
@@ -72,7 +72,8 @@ select t.id_pers,
            else
                'Не заполнен'
            end as w,
-       p.enp
+       p.enp,
+       (select std || ' - ' || prikaz from exp_std where id_std = t.id_std) std
 from exp_sluch t
          left join exp_patient p on p.id_pers = t.id_pers
          left join exp_lpu l on l.lpu_id = t.lpu_id
@@ -98,6 +99,7 @@ SQL;
         $rsm->addScalarResult('enp', 'enp');
         $rsm->addScalarResult('status', 'status');
         $rsm->addScalarResult('krit_zag', 'krit_zag');
+        $rsm->addScalarResult('std', 'std');
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         $query->setParameter('vrach', $vrach->getId());
@@ -212,7 +214,7 @@ SQL;
     public function getExpertBySluch(int $id): array
     {
         $sql = <<<SQL
-select vid, check_usl, check_lek, check_all
+select vid, check_all
   from exp_view_usl_check t
 where id = :id
 SQL;
@@ -232,13 +234,11 @@ SQL;
     public function getUslBySluch(int $id): array
     {
         $sql = <<<SQL
-select exp_sluch_usl.usl_code, exp_usl.name
-from exp_sluch
-    join exp_sluch_usl on exp_sluch.id = exp_sluch_usl.id_sluch
-join exp_usl on exp_usl.usl_code = exp_sluch_usl.usl_code
-
-where exp_sluch.id = :id and exp_sluch.status = 2
-  and exp_sluch_usl.krit_zag is null and exp_sluch_usl.krit_str is null
+select u.usl_code, u.name
+from exp_sluch join exp_sluch_usl on exp_sluch.id = exp_sluch_usl.id_sluch
+               join exp_usl u on u.usl_code = exp_sluch_usl.usl_code
+ where exp_sluch.id = :id
+   and not exists(select 1 from exp_std_usl where exp_std_usl.id_std = exp_sluch_usl.no_std and exp_std_usl.kod_usl = exp_sluch_usl.usl_code)
 SQL;
 
         $rsm = new ResultSetMapping();
