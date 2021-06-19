@@ -44,29 +44,15 @@ class DoctorController extends AbstractController
             $data->setVrach($this->getUser()->getVrach());
             $data->setLpuId($this->getUser()->getVrach()->getLpu()->getLpuId());
 
-            /*foreach ($data->getUsl() as $usl) {
-
-                if ($usl->getDel()) {
-                    $this->getDoctrine()->getManager()->remove($usl);
-                    $data->removeUsl($usl);
-                    $this->getDoctrine()->getManager()->flush();
-                } else {
-                    $usl->setSluch($data);
-                    $this->getDoctrine()->getManager()->persist($usl);
-                }
+            foreach ($data->getUsl() as $usl) {
+                $usl->setSluch($data);
+                $this->getDoctrine()->getManager()->persist($usl);
             }
 
             foreach ($data->getLek() as $lek) {
-
-                if ($lek->getDel()) {
-                    $this->getDoctrine()->getManager()->remove($lek);
-                    $data->removeLek($lek);
-                    $this->getDoctrine()->getManager()->flush();
-                } else {
-                    $lek->setSluch($data);
-                    $this->getDoctrine()->getManager()->persist($lek);
-                }
-            }*/
+                $lek->setSluch($data);
+                $this->getDoctrine()->getManager()->persist($lek);
+            }
 
             $this->getDoctrine()->getManager()->persist($data);
             $this->getDoctrine()->getManager()->flush();
@@ -78,7 +64,16 @@ class DoctorController extends AbstractController
 
         return $this->render('doctor/newsluch.html.twig', [
             'title' => 'Кабинет врача',
-            'form' => $newSluchForm->createView()
+            'form' => $newSluchForm->createView(),
+            'breadcrumbs' => [
+                [
+                    'url' => $this->generateUrl('doctor_dashboard'),
+                    'name' => 'Кабинет врача'
+                ],
+                [
+                    'name' => 'Случай лечения'
+                ]
+            ]
         ]);
     }
 }

@@ -38,7 +38,7 @@ class DoctorSluchForm extends AbstractType
         }
 
         $builder->add('patient', EntityType::class, [
-            'label' => 'Пациент',
+            'label' => false,
             'class' => ExpPatient::class,
             'choice_label' => function (ExpPatient $pu) {
                 return $pu->getFam() . " " . $pu->getIm() . " " . $pu->getOt();
@@ -193,11 +193,13 @@ class DoctorSluchForm extends AbstractType
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true,
+            'label' => false
         ])->add('lek', CollectionType::class, [
             'entry_type' => SluchLekForm::class,
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true,
+            'label' => false
         ])->add('save', SubmitType::class, array(
                 'label' => 'Сохранить',
                 'attr' => array(
