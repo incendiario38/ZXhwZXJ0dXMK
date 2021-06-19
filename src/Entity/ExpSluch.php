@@ -7,12 +7,15 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * ExpSluch
  *
  * @ORM\Table(name="exp_sluch", uniqueConstraints={@ORM\UniqueConstraint(name="exp_sluch_id_uindex", columns={"id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class ExpSluch
 {
@@ -30,6 +33,7 @@ class ExpSluch
      * @var int|null
      *
      * @ORM\Column(name="lpu_id", type="integer", nullable=true)
+     * @Assert\Type(type="numeric")
      */
     private $lpuId;
 
@@ -37,6 +41,7 @@ class ExpSluch
      * @var int|null
      *
      * @ORM\Column(name="id_vrach", type="integer", nullable=true)
+     * @Assert\Type(type="numeric")
      */
     private $idVrach;
 
@@ -44,6 +49,9 @@ class ExpSluch
      * @var DateTime|null
      *
      * @ORM\Column(name="dbeg", type="datetime", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="\DateTime")
      */
     private $dbeg;
 
@@ -51,6 +59,9 @@ class ExpSluch
      * @var DateTime|null
      *
      * @ORM\Column(name="dend", type="datetime", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="\DateTime")
      */
     private $dend;
 
@@ -58,13 +69,19 @@ class ExpSluch
      * @var int|null
      *
      * @ORM\Column(name="usl_ok", type="integer", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      */
-    private $uslOk = '0';
+    private $uslOk = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="forma", type="integer", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      */
     private $forma;
 
@@ -72,6 +89,9 @@ class ExpSluch
      * @var int|null
      *
      * @ORM\Column(name="phase", type="integer", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      */
     private $phase;
 
@@ -79,6 +99,9 @@ class ExpSluch
      * @var int|null
      *
      * @ORM\Column(name="stage", type="integer", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      */
     private $stage;
 
@@ -337,5 +360,16 @@ class ExpSluch
         return $this;
     }
 
+    /**
+     * @Assert\Callback
+     */
+    public function validateDateDispEnd(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->getDend() < $this->getDbeg()) {
+            $context->buildViolation('Дата окончания случая лечения не может быть меньше даны начала лечения')
+                ->atPath('dend')
+                ->addViolation();
+        }
+    }
 
 }

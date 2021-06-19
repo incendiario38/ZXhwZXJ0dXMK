@@ -193,7 +193,7 @@ class DoctorSluchForm extends AbstractType
             'entry_type' => SluchLekUslForm::class,
             'allow_add' => true,
             'entry_options' => ['em' => $em],
-            'prototype' => true
+            'prototype' => true,
         ])->add('save', SubmitType::class, array(
                 'label' => 'Сохранить',
                 'attr' => array(
@@ -215,6 +215,7 @@ class DoctorSluchForm extends AbstractType
         $resolver->setRequired('user');
         $resolver->setDefaults(array(
             'data_class' => ExpSluch::class,
+            'cascade_validation' => true
         ));
     }
 

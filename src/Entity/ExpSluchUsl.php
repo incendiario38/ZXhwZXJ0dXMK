@@ -5,12 +5,15 @@ namespace App\Entity;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * ExpSluchUsl
  *
  * @ORM\Table(name="exp_sluch_usl", uniqueConstraints={@ORM\UniqueConstraint(name="exp_sluch_usl_id_uindex", columns={"id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class ExpSluchUsl
 {
@@ -28,6 +31,9 @@ class ExpSluchUsl
      * @var DateTime|null
      *
      * @ORM\Column(name="date_usl", type="datetime", nullable=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="\DateTime")
      */
     private $dateUsl;
 
@@ -84,6 +90,18 @@ class ExpSluchUsl
         $this->usl = $usl;
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateDateDispEnd(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->getDateUsl() < $this->getSluch()->getDbeg() || $this->getDateUsl() > $this->getSluch()->getDend()) {
+            $context->buildViolation('Дата оказания услуги должна быть в диапазоне оказания случая лечения')
+                ->atPath('dateUsl')
+                ->addViolation();
+        }
     }
 
 
