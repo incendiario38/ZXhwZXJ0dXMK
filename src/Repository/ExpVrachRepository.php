@@ -124,4 +124,24 @@ SQL;
             return 0;
         }
     }
+
+    public function getExpertBySluch(int $id): array
+    {
+        $sql = <<<SQL
+select vid, check_usl, check_lek, check_all
+  from exp_view_usl_check t
+where id = :id
+SQL;
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('vid', 'vid');
+        $rsm->addScalarResult('check_usl', 'check_usl');
+        $rsm->addScalarResult('check_lek', 'check_lek');
+        $rsm->addScalarResult('check_all', 'check_all');
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        $query->setParameter('id', $id);
+
+        return $query->getArrayResult();
+    }
 }

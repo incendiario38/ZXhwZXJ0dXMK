@@ -14,6 +14,8 @@
         <link rel="stylesheet"
               href="{{ asset('assets/datatables/FixedColumns-3.3.3/css/fixedColumns.bootstrap4.min.css') }}"/>
     {% endif %}
+    <link rel="stylesheet"
+          href="{{ asset('css/modal.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -43,6 +45,24 @@
                 </thead>
             </table>
 
+            <div class="modal fade" id="expertModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog  modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Экспертное заключение</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex">
+                            <div class="spinner-border mx-auto" role="status">
+                                <span class="sr-only">Загрузка...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -60,6 +80,38 @@
 
     <script>
         $(document).ready(function () {
+            let $expertModal =$('#expertModal');
+
+            $expertModal.on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var sluch = button.data('id') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var $modal = $(this).find('.modal-body');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('doctor_expert_by_sluch_ajax') }}',
+                    data: {
+                        id: sluch
+                    },
+                    success: function (data) {
+                        $modal.html(data);
+                    }
+                });
+            });
+
+            $expertModal.on('hide.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var sluch = button.data('id') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var $modal = $(this).find('.modal-body');
+
+                $modal.html('<div class="spinner-border mx-auto" role="status"><span class="sr-only">Загрузка...</span></div>');
+
+            })
+
             $('#example').DataTable({
                 language: {
                     url: "{{ asset('assets/datatables/Russian.json') }}"
@@ -95,7 +147,9 @@
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<div class="d-flex justify-content-center"><button class="btn btn-sm btn-first">' + data.id + '</button><button class="btn btn-sm btn-first ml-3">' + data.id + '</button></div>';
+                            return '<div class="d-flex justify-content-center">' +
+                                '<button class="btn btn-first" data-toggle="modal" data-target="#expertModal" data-id="' + data.id + '" title="Экспертное заключение">&telrec;</button>' +
+                                '</div>';
                         }
                     }
                 ]
