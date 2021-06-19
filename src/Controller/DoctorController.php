@@ -16,14 +16,20 @@ class DoctorController extends AbstractController
 {
     /**
      * @Route("/doctor/newsluch", name="doctor_newsluch")
+     * @Route("/doctor/newsluch/{id}", name="doctor_newsluch")
      */
-    public function doctor(Request $request): Response
+    public function doctor(Request $request, $id = null): Response
     {
         $this->denyAccessUnlessGranted(Role::DOCTOR);
 
+        if ($id) {
+            $sluchLech = $this->get('doctrine')->getManager()->getRepository(ExpSluch::class)->find($id);
+        }
+
+
         $newSluchForm = $this->createForm(
             DoctorSluchForm::class,
-            null,
+            ($id && $sluchLech instanceof ExpSluch) ? $sluchLech : null,
             [
                 'em' => $this->get('doctrine')->getManager(),
                 'user' => $this->getUser()
@@ -37,8 +43,37 @@ class DoctorController extends AbstractController
             $data = $newSluchForm->getData();
             $data->setVrach($this->getUser()->getVrach());
             $data->setLpuId($this->getUser()->getVrach()->getLpu()->getLpuId());
+
+            /*foreach ($data->getUsl() as $usl) {
+
+                if ($usl->getDel()) {
+                    $this->getDoctrine()->getManager()->remove($usl);
+                    $data->removeUsl($usl);
+                    $this->getDoctrine()->getManager()->flush();
+                } else {
+                    $usl->setSluch($data);
+                    $this->getDoctrine()->getManager()->persist($usl);
+                }
+            }
+
+            foreach ($data->getLek() as $lek) {
+
+                if ($lek->getDel()) {
+                    $this->getDoctrine()->getManager()->remove($lek);
+                    $data->removeLek($lek);
+                    $this->getDoctrine()->getManager()->flush();
+                } else {
+                    $lek->setSluch($data);
+                    $this->getDoctrine()->getManager()->persist($lek);
+                }
+            }*/
+
             $this->getDoctrine()->getManager()->persist($data);
             $this->getDoctrine()->getManager()->flush();
+
+            $id = $data->getId();
+
+            return $this->redirect("/doctor/newsluch/" . $id);
         }
 
         return $this->render('doctor/newsluch.html.twig', [

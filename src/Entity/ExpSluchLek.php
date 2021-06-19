@@ -18,14 +18,13 @@ class ExpSluchLek
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="exp_sluch_lek_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="exp_sluch_lek_id_seq", allocationSize=1, initialValue=2)
      */
     private $id;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="lek_name", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ExpLek", inversedBy="skuchlek")
+     * @ORM\JoinColumn(name="lek_name", referencedColumnName="name")
      */
     private $lekName;
 
@@ -37,37 +36,22 @@ class ExpSluchLek
     protected $sluch;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private $status;
+    private $del;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLekName(): ?string
+    public function getLekName(): ?ExpLek
     {
         return $this->lekName;
     }
 
-    public function setLekName(?string $lekName): self
+    public function setLekName(?ExpLek $lekName): self
     {
         $this->lekName = $lekName;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -82,6 +66,22 @@ class ExpSluchLek
         $this->sluch = $sluch;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDel()
+    {
+        return $this->del;
+    }
+
+    /**
+     * @param mixed $del
+     */
+    public function setDel($del): void
+    {
+        $this->del = $del;
     }
 
 

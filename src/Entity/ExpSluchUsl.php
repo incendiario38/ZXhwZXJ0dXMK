@@ -51,6 +51,11 @@ class ExpSluchUsl
      */
     protected $usl;
 
+    /**
+     * @var
+     */
+    protected $del;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,22 @@ class ExpSluchUsl
                 ->atPath('dateUsl')
                 ->addViolation();
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDel()
+    {
+        return $this->del;
+    }
+
+    /**
+     * @param mixed $del
+     */
+    public function setDel($del): void
+    {
+        $this->del = $del;
     }
 
 

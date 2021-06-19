@@ -114,13 +114,13 @@ class ExpSluch
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="ExpSluchUsl", mappedBy="sluch", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ExpSluchUsl", mappedBy="sluch", cascade={"persist", "remove"})
      */
     private $usl;
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="ExpSluchLek", mappedBy="sluch", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ExpSluchLek", mappedBy="sluch", cascade={"persist", "remove"})
      */
     private $lek;
 

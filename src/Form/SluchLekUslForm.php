@@ -23,7 +23,7 @@ class SluchLekUslForm extends AbstractType
                 'label' => 'Оказанная услуга',
                 'class' => ExpUsl::class,
                 'choice_label' => function (ExpUsl $u) {
-                    return mb_substr($u->getUslCode() ." ". $u->getName(), 0, 50)."...";
+                    return mb_substr($u->getUslCode() . " " . $u->getName(), 0, 50) . "...";
                 },
                 'em' => $em,
                 'required' => true,
@@ -36,7 +36,7 @@ class SluchLekUslForm extends AbstractType
                     'data-width' => "100%",
                     'class' => 'selectpickerusl',
                     'autocomplete' => 'off',
-                    'style' => 'max-width: 100%'
+                    'style' => 'width: 100%'
                 ],
             ])->add('dateUsl', DateType::class, [
                 'label' => 'Дата оказания услуги',

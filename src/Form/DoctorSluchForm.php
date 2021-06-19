@@ -116,12 +116,11 @@ class DoctorSluchForm extends AbstractType
             'em' => $em,
             'required' => true,
             'multiple' => false,
-            /*'query_builder' => function (EntityRepository $er) use ($user) {
+            'query_builder' => function (EntityRepository $er) {
                 return
                     $er->createQueryBuilder('t')
-                        ->andWhere('t.lpu = :lpu')
-                        ->setParameter('lpu', $user->getVrach()->getLpu()->getLpuId());
-            },*/
+                        ->andWhere('t.enable = 1');
+            },
             'label_attr' => [
                 'autocomplete' => 'off'
             ],
@@ -191,6 +190,11 @@ class DoctorSluchForm extends AbstractType
             ],
         ])->add('usl', CollectionType::class, [
             'entry_type' => SluchLekUslForm::class,
+            'allow_add' => true,
+            'entry_options' => ['em' => $em],
+            'prototype' => true,
+        ])->add('lek', CollectionType::class, [
+            'entry_type' => SluchLekForm::class,
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true,

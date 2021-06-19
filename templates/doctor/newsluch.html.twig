@@ -32,6 +32,8 @@
                     noneSelectedText: 'Диагноз не выбран',
                     liveSearch: true,
                 });
+
+                addTagFormDeleteLink(newElem);
             });
 
             $('.selectpickerusl').selectpicker({
@@ -40,6 +42,54 @@
                 liveSearch: true,
             });
         });
+
+
+        jQuery(document).ready(function () {
+            jQuery('.lek-add-another-collection-widget').click(function (e) {
+                var list = jQuery(jQuery(this).attr('data-list-selector'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') || list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+
+                $('.selectpickerlek').selectpicker({
+                    liveSearchPlaceholder: "Поиск диагноза",
+                    noneSelectedText: 'Диагноз не выбран',
+                    liveSearch: true,
+                });
+
+                addTagFormDeleteLink(newElem);
+            });
+
+            $('.selectpickerlek').selectpicker({
+                liveSearchPlaceholder: "Поиск диагноза",
+                noneSelectedText: 'Диагноз не выбран',
+                liveSearch: true,
+            });
+        });
+
+        function addTagFormDeleteLink($tagFormLi) {
+            var $removeFormButton = $('<button type="button" class="close close-button" aria-label="Close"><span aria-hidden="true">×</span></button>');
+            $tagFormLi.prepend($removeFormButton);
+
+            $removeFormButton.on('click', function(e) {
+                // remove the li for the tag form
+                $tagFormLi.remove();
+            });
+        }
 
         $(function () {
             $('.selectpicker').selectpicker({
@@ -60,6 +110,12 @@
     <style>
         #sluch-block .form-group .datepicker{
             margin: 10px;
+        }
+        #usl-fields-list{
+            margin-bottom: 15px;
+        }
+        .close-button{
+            margin: 26px 10px 0 0; height: 41px;
         }
     </style>
     {{ form_start(form) }}
@@ -120,21 +176,42 @@
 
         </div>
         <div class="col-md-6 mb-6" id="sluch-block">
-            <ul id="usl-fields-list" style="list-style: none"
-                data-prototype="{{ form_widget(form.usl.vars.prototype)|e }}"
-                data-widget-tags="{{ '<li class="form-group row"></li>'|e }}"
-                data-widget-counter="{{ form.usl|length }}">
-                {% for uslField in form.usl %}
-                    <li class="form-group row">
-                        {{ form_errors(uslField) }}
-                        {#{{ form_label(uslField) }}#}
-                        {{ form_widget(uslField) }}
-                    </li>
-                {% endfor %}
-            </ul>
-            {#<button type="button" class="add-another-collection-widget" data-list-selector="#email-fields-list">Add another email
-            </button>#}
-            <button type="button" class="btn btn-info add-another-collection-widget"  style="margin: auto;display: block;" data-list-selector="#usl-fields-list">Добавить услугу</button>
+            <div style="margin-bottom: 25px;
+    border-bottom: 1px dashed #6c8bc0;
+    padding-bottom: 33px;">
+                <ul id="usl-fields-list" style="list-style: none"
+                    data-prototype="{{ form_widget(form.usl.vars.prototype)|e }}"
+                    data-widget-tags="{{ '<li class="form-group row"></li>'|e }}"
+                    data-widget-counter="{{ form.usl|length }}">
+                    {% for uslField in form.usl %}
+                        <li class="form-group row">
+                            <button type="button" class="close close-button" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            {{ form_errors(uslField) }}
+                            {#{{ form_label(uslField) }}#}
+                            {{ form_widget(uslField) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="btn btn-info add-another-collection-widget"  style="margin: auto;display: block;" data-list-selector="#usl-fields-list">Добавить услугу</button>
+            </div>
+            <div style="margin-bottom: 25px;
+    border-bottom: 1px dashed #6c8bc0;
+    padding-bottom: 33px;">
+                <ul id="lek-fields-list" style="list-style: none"
+                    data-prototype="{{ form_widget(form.lek.vars.prototype)|e }}"
+                    data-widget-tags="{{ '<li class="form-group row"></li>'|e }}"
+                    data-widget-counter="{{ form.lek|length }}">
+                    {% for lekField in form.lek %}
+                        <li class="form-group row">
+                            <button type="button" class="close close-button" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            {{ form_errors(lekField) }}
+                            {#{{ form_label(lekField) }}#}
+                            {{ form_widget(lekField) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            <button type="button" class="btn btn-info lek-add-another-collection-widget"  style="margin: auto;display: block;" data-list-selector="#lek-fields-list">Назначить препарат</button>
+            </div>
         </div>
     </div>
     {{ form_rest(form) }}

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ExpUsl
  *
- * @ORM\Table(name="exp_usl", uniqueConstraints={@ORM\UniqueConstraint(name="exp_nom_id_uindex", columns={"id"})})
+ * @ORM\Table(name="exp_view_usl", uniqueConstraints={@ORM\UniqueConstraint(name="exp_nom_id_uindex", columns={"id"})})
  * @ORM\Entity
  */
 class ExpUsl
@@ -44,13 +44,6 @@ class ExpUsl
      * @ORM\Column(name="rel", type="decimal", precision=10, scale=0, nullable=true)
      */
     private $rel;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="dateout", type="datetime", nullable=true)
-     */
-    private $dateout;
 
     public function getId(): ?string
     {
@@ -89,18 +82,6 @@ class ExpUsl
     public function setRel(?string $rel): self
     {
         $this->rel = $rel;
-
-        return $this;
-    }
-
-    public function getDateout(): ?DateTimeInterface
-    {
-        return $this->dateout;
-    }
-
-    public function setDateout(?DateTimeInterface $dateout): self
-    {
-        $this->dateout = $dateout;
 
         return $this;
     }
