@@ -7,6 +7,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,12 +25,12 @@ class GridController extends AbstractController
             'breadcrumbs' => [
                 [
                     'url' => $this->generateUrl('doctor_dashboard'),
-                    'name' => 'Кабинет врача'
+                    'name' => 'Кабинет врача',
                 ],
                 [
-                    'name' => 'Случаи лечения'
-                ]
-            ]
+                    'name' => 'Случаи лечения',
+                ],
+            ],
         ]);
     }
 
@@ -43,10 +44,28 @@ class GridController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $sluch =  $this->getDoctrine()->getRepository(ExpVrach::class)->getExpSluch($user->getVrach());
+        $sluch = $this->getDoctrine()->getRepository(ExpVrach::class)->getExpSluch($user->getVrach());
 
         return new JsonResponse([
-            'data' =>$sluch,
+            'data' => $sluch,
+        ]);
+    }
+
+    /**
+     * @Route("/doctor/sluch/expert/ajax", name="doctor_expert_by_sluch_ajax")
+     */
+    public function doctorExpertBySluch(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(Role::DOCTOR);
+
+        $id = $request->get('id', -1);
+
+        if ($id === -1) {
+            return new Response('Не задан идентификатор');
+        }
+
+        return $this->render('grid/sluch_expert.html.twig', [
+            'data' => $this->getDoctrine()->getRepository(ExpVrach::class)->getExpertBySluch($id),
         ]);
     }
 }
