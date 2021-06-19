@@ -14,7 +14,7 @@
 
 
         #usl-fields-list li,
-        #lek-fields-list li{
+        #lek-fields-list li {
             position: relative;
         }
 
@@ -22,8 +22,9 @@
         #lek-fields-list li > div {
             margin-left: 20px;
         }
-        #usl-fields-list li> button.close-button,
-        #lek-fields-list li> button.close-button {
+
+        #usl-fields-list li > button.close-button,
+        #lek-fields-list li > button.close-button {
             position: absolute;
             top: 0;
             left: 0;
@@ -33,10 +34,19 @@
     {{ form_start(form) }}
 
     <div class="form-group">
-        {{ form_errors(form.krit_zag) }}
-        {{ form_label(form.krit_zag) }}
-        {{ form_widget(form.krit_zag) }}
+        {{ form_errors(form.expStd) }}
+        {{ form_label(form.expStd) }}
+        {{ form_widget(form.expStd) }}
     </div>
+
+
+    {% if form.krit_zag is defined and form.krit_zag %}
+        <div class="form-group">
+            {{ form_errors(form.krit_zag) }}
+            {{ form_label(form.krit_zag) }}
+            {{ form_widget(form.krit_zag) }}
+        </div>
+    {% endif %}
 
     {% if form.krit_str is defined and form.krit_str %}
         <div class="form-group">
@@ -47,9 +57,9 @@
     {% endif %}
 
     <div class="row">
-        <div class="col-md-6">
-            <h3>Услуги</h3>
-            {% if form.usl is defined and form.usl %}
+        {% if form.usl is defined and form.usl %}
+            <div class="col-md-6">
+                <h3>Услуги</h3>
                 <ul id="usl-fields-list" style="list-style: none"
                     data-prototype="{{ form_widget(form.usl.vars.prototype)|e }}"
                     data-widget-counter="{{ form.usl|length }}">
@@ -63,11 +73,11 @@
                 <button type="button" class="btn btn-info add_item_link" style="margin: auto;display: block;"
                         data-list-selector="#usl-fields-list">Добавить услугу
                 </button>
-            {% endif %}
-        </div>
-        <div class="col-md-6">
-            <h3>Лекарства</h3>
-            {% if form.lek is defined and form.lek %}
+            </div>
+        {% endif %}
+        {% if form.lek is defined and form.lek %}
+            <div class="col-md-6">
+                <h3>Лекарства</h3>
                 <ul id="lek-fields-list" style="list-style: none"
                     data-prototype="{{ form_widget(form.lek.vars.prototype)|e }}"
                     data-widget-counter="{{ form.lek|length }}">
@@ -81,8 +91,8 @@
                 <button type="button" class="btn btn-info add_item_link" style="margin: auto;display: block;"
                         data-list-selector="#lek-fields-list">Добавить лекарство
                 </button>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 
     {{ form_rest(form) }}

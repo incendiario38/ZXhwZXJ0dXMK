@@ -53,7 +53,7 @@ class ExpStd
     /**
      * @var string|null
      *
-     * @ORM\Column(name="faza", type="string", length=10, nullable=true, options={"comment"="Фаза"})
+     * @ORM\Column(name="phase", type="string", length=10, nullable=true, options={"comment"="Фаза"})
      */
     private $faza;
 

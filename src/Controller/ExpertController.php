@@ -25,16 +25,12 @@ class ExpertController extends AbstractController
         $formData = $request->get(ExpertKritForm::NAME);
         unset($formData['_token']);
 
-        \dump($formData);
-
         if (! isset($formData['krit_str'])) {
             $formData['krit_str'] = null;
             $formData['usl'] = [];
             $formData['lek'] = [];
         } else if (isset($formData['krit_str']) ) {
             $last = $request->getSession()->get('krit_str', -1);
-            \dump($last);
-            \dump($formData['krit_str']);
 
             if ($last != $formData['krit_str'] || (! isset($formData['usl']) && ! isset($formData['lek']))) {
                 $request->getSession()->set('krit_str', $formData['krit_str']);
@@ -79,7 +75,7 @@ class ExpertController extends AbstractController
         $newExpertForm->handleRequest($request);
 
         return $this->render('expert/newskrit.html.twig', [
-            'title' => 'Кабинет врача',
+            'title' => 'Управление критериями качества',
             'form' => $newExpertForm->createView(),
             'breadcrumbs' => [
                 [

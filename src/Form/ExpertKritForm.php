@@ -9,6 +9,7 @@ use App\Entity\ExpKritStr;
 use App\Entity\ExpKritUsl;
 use App\Entity\ExpKritZag;
 use App\Entity\ExpStdUsl;
+use App\Entity\ExtStd;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,28 +33,56 @@ class ExpertKritForm extends AbstractType
         $em = $options['em'];
         $data = $options['data'] ?? [];
 
-        $expKritZagAll = $em->getRepository(ExpKritZag::class)->findBy([], ['zag'=>'ASC']);
+        $expStd = $em->getRepository(ExtStd::class)->findAll();
 
-        $builder->add('krit_zag', ChoiceType::class, [
-            'label' => 'Группа критериев',
-            'choices' => $expKritZagAll,
-            'choice_value' => 'id',
-            'choice_label' => function (?ExpKritZag $category) {
-                return $category ? $category->getZag() . ' ' . $category->getKrit() : '';
-            },
-            'multiple' => false,
-            'placeholder' => 'Выберите группу критериев',
-            'label_attr' => [
-                'autocomplete' => 'off',
-            ],
-            'attr' => [
-                'data-width' => "100%",
-                'class' => 'selectpicker',
-                'data-live-search' => true,
-                'autocomplete' => 'off',
-                'onchange' => 'this.form.submit()',
-            ],
-        ]);
+        $builder
+            ->add('expStd', ChoiceType::class, [
+                'label' => 'Стандарт',
+                'choices' => $expStd,
+                'choice_value' => 'id',
+                'choice_label' => function(?ExtStd $category) {
+                    return $category ? $category->getStd(): '';
+                },
+                'multiple' => false,
+                'placeholder' => 'Выберите стандарт',
+                'label_attr' => [
+                    'autocomplete' => 'off',
+                ],
+                'attr' => [
+                    'data-width' => "100%",
+                    'class' => 'selectpicker',
+                    'data-live-search' => true,
+                    'autocomplete' => 'off',
+                    'onchange' => 'this.form.submit()'
+                ],
+            ]);
+
+        if (isset($data['expStd']) && ! empty($data['expStd'])) {
+            $expStd = $em->getRepository(ExtStd::class)->find($data['expStd']);
+
+            $expKritZagAll = $em->getRepository(ExpKritZag::class)->findBy(['vz' => $expStd->getVzkat(), 'phase'=>$expStd->getPhase()], ['zag'=>'ASC']);
+
+            $builder->add('krit_zag', ChoiceType::class, [
+                'label' => 'Группа критериев',
+                'choices' => $expKritZagAll,
+                'choice_value' => 'id',
+                'choice_label' => function (?ExpKritZag $category) {
+                    return $category ? $category->getZag() . ' ' . $category->getKrit() : '';
+                },
+                'multiple' => false,
+                'placeholder' => 'Выберите группу критериев',
+                'label_attr' => [
+                    'autocomplete' => 'off',
+                ],
+                'attr' => [
+                    'data-width' => "100%",
+                    'class' => 'selectpicker',
+                    'data-live-search' => true,
+                    'autocomplete' => 'off',
+                    'onchange' => 'this.form.submit()',
+                ],
+            ]);
+        }
 
 
         if (isset($data['krit_zag']) && ! empty($data['krit_zag'])) {
@@ -91,7 +120,7 @@ class ExpertKritForm extends AbstractType
                 'entry_type' => ExpKritUslType::class,
                 'allow_add' => true,
                 'entry_options' => ['em' => $em,
-                    'dataset' => $options['data']['usl'] ?? []],
+                    'std' => $data['expStd']],
                 'prototype' => true,
                 'label' => false,
             ]);
@@ -100,7 +129,7 @@ class ExpertKritForm extends AbstractType
                 'entry_type' => ExpKritLekType::class,
                 'allow_add' => true,
                 'entry_options' => ['em' => $em,
-                    'dataset' => $options['data']['lek'] ?? []],
+                    'std' => $data['expStd']],
                 'prototype' => true,
                 'label' => false,
             ]);

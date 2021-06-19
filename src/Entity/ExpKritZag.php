@@ -71,6 +71,32 @@ class ExpKritZag
      */
     private $st1;
 
+
+
+    /**
+     * @return mixed
+     */
+    public function getPhase()
+    {
+        return $this->phase;
+    }
+
+    /**
+     * @param mixed $phase
+
+     */
+    public function setPhase($phase)
+    {
+        $this->phase = $phase;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(name="phase", type="integer")
+     */
+    private $phase;
+
     public function getId(): ?string
     {
         return $this->id;
