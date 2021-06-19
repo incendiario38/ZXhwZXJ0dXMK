@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Repository\ExpKritZagRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ExpKritZag
  *
  * @ORM\Table(name="exp_krit_zag", uniqueConstraints={@ORM\UniqueConstraint(name="exp_krit_zag_id_uindex", columns={"id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ExpKritZagRepository::class)
  */
 class ExpKritZag
 {

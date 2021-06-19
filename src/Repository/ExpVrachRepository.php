@@ -235,10 +235,10 @@ SQL;
     {
         $sql = <<<SQL
 select u.usl_code, u.name
-from exp_sluch join exp_sluch_usl on exp_sluch.id = exp_sluch_usl.id_sluch
+from exp_sluch_usl 
                join exp_usl u on u.usl_code = exp_sluch_usl.usl_code
- where exp_sluch.id = :id
-   and not exists(select 1 from exp_std_usl where exp_std_usl.id_std = exp_sluch_usl.no_std and exp_std_usl.kod_usl = exp_sluch_usl.usl_code)
+ where exp_sluch_usl.id = :id
+   and exp_sluch_usl.no_std = 1
 SQL;
 
         $rsm = new ResultSetMapping();
@@ -255,9 +255,8 @@ SQL;
     {
         $sql = <<<SQL
 select exp_sluch_lek.lek_name
-  from exp_sluch join exp_sluch_lek on exp_sluch.id = exp_sluch_lek.id_sluch
- where exp_sluch.id = :id and exp_sluch.status = 2 
-   and exp_sluch_lek.krit_zag is null and exp_sluch_lek.krit_str is null
+  from exp_sluch_lek
+ where exp_sluch_lek.id_sluch = :id and  exp_sluch_lek.no_std = 1
 SQL;
 
         $rsm = new ResultSetMapping();
