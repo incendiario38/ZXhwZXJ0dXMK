@@ -40,6 +40,7 @@ class ExpKritLekType extends AbstractType
                 'class' => 'selectpicker',
                 'data-live-search' => true,
                 'autocomplete' => 'off',
+                'disabled' => $options['lock']
             ],
         ]);
     }
@@ -48,5 +49,6 @@ class ExpKritLekType extends AbstractType
     {
         $resolver->setRequired('em');
         $resolver->setRequired('std');
+        $resolver->setRequired('lock');
     }
 }

@@ -1,5 +1,6 @@
 <div class="d-flex flex-column" style="flex:1">
     <h5></h5>
+    <a href="{{ path('doctor_show_std') }}" class="btn btn-sm btn-first mb-2">Открыть стандарт</a>
     <table class="table table-striped table-bordered w-100">
         <thead>
         <tr>
@@ -14,9 +15,13 @@
                     <td>{{ row.vid }}</td>
                     <td>
                         <div class="d-flex justify-content-center text-white">
-                            {% if row.check_all %}
-                                <div class="rounded-circle bg-info">
+                            {% if row.check_all == 1 %}
+                                <div class="rounded-circle bg-success">
                                     <span aria-hidden="true">&check;</span>
+                                </div>
+                            {% elseif row.check_all == 2 %}
+                                <div class="rounded-circle bg-secondary">
+                                    <span aria-hidden="true">&cross;</span>
                                 </div>
                             {% else %}
                                 <div class="rounded-circle bg-danger">

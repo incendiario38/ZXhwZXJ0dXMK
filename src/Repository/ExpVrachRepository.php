@@ -64,6 +64,7 @@ select t.id_pers,
        p.mr,
        t.status,
        t.krit_zag,
+       t.id_std,
        CASE
            WHEN p.w = 1 then
                'Мужской'
@@ -100,6 +101,7 @@ SQL;
         $rsm->addScalarResult('status', 'status');
         $rsm->addScalarResult('krit_zag', 'krit_zag');
         $rsm->addScalarResult('std', 'std');
+        $rsm->addScalarResult('id_std', 'id_std');
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         $query->setParameter('vrach', $vrach->getId());

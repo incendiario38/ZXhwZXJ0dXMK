@@ -41,15 +41,17 @@ class ExpKritUslType extends AbstractType
                 'class' => 'selectpicker',
                 'data-live-search' => true,
                 'autocomplete' => 'off',
+                'disabled' => $options['lock']
             ],
         ]);
 
         $builder->add('period', IntegerType::class, [
-            'label' => 'Время выполнения услуги с момента поступления на лечение',
+            'label' => 'Время выполнения услуги с момента поступления на лечение (минуты)',
             'attr' => [
                 'data-width' => "100%",
                 'autocomplete' => 'off',
                 'class' => 'form-control',
+                'disabled' => $options['lock']
             ],
         ]);
     }
@@ -58,5 +60,6 @@ class ExpKritUslType extends AbstractType
     {
         $resolver->setRequired('em');
         $resolver->setRequired('std');
+        $resolver->setRequired('lock');
     }
 }

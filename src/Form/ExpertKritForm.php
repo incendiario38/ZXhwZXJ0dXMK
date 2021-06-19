@@ -59,32 +59,7 @@ class ExpertKritForm extends AbstractType
             ]);
 
         if (isset($data['expStd']) && ! empty($data['expStd'])) {
-            $expMkb = $em->getRepository(ExpStdMkb::class)->findBy(['std' =>$data['expStd']]);
-
-            $builder->add('mkb', ChoiceType::class, [
-                'label' => 'МКБ',
-                'choices' => $expMkb,
-                'choice_value' => 'id',
-                'choice_label' => function (?ExpStdMkb $category) {
-                    return $category ? $category->getKodMkb() . ' ' . $category->getMkb() : '';
-                },
-                'multiple' => false,
-                'placeholder' => 'Выберите МКБ',
-                'label_attr' => [
-                    'autocomplete' => 'off',
-                ],
-                'attr' => [
-                    'data-width' => "100%",
-                    'class' => 'selectpicker',
-                    'data-live-search' => true,
-                    'autocomplete' => 'off',
-                    'onchange' => 'this.form.submit()',
-                ],
-            ]);
-        }
-
-        if (isset($data['mkb']) && ! empty($data['mkb'])) {
-            $expKritZagAll = $em->getRepository(ExpKritZag::class)->getStd($data['expStd'], $data['mkb']);
+            $expKritZagAll = $em->getRepository(ExpKritZag::class)->getStd($data['expStd']);
 
             $builder->add('krit_zag', ChoiceType::class, [
                 'label' => 'Группа критериев',
@@ -142,18 +117,21 @@ class ExpertKritForm extends AbstractType
 
             $builder->add('usl', CollectionType::class, [
                 'entry_type' => ExpKritUslType::class,
-                'allow_add' => true,
+                'allow_add' => !$options['lock'],
                 'entry_options' => ['em' => $em,
-                    'std' => $data['expStd']],
+                    'std' => $data['expStd'],
+                    'lock' => $options['lock']],
                 'prototype' => true,
                 'label' => false,
             ]);
 
             $builder->add('lek', CollectionType::class, [
                 'entry_type' => ExpKritLekType::class,
-                'allow_add' => true,
+                'allow_add' => !$options['lock'],
                 'entry_options' => ['em' => $em,
-                    'std' => $data['expStd']],
+                    'std' => $data['expStd'],
+                    'lock' => $options['lock']
+                ],
                 'prototype' => true,
                 'label' => false,
             ]);
@@ -168,6 +146,7 @@ class ExpertKritForm extends AbstractType
     {
         $resolver->setDefaults([
             'validation_groups' => false,
+            'lock' => false,
         ]);
 
         $resolver->setRequired('em');
