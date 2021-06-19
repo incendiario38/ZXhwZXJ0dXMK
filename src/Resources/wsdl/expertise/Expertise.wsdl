@@ -193,7 +193,7 @@
     <wsdl:service name="ExpertiseSluch">
         <!-- Port -->
         <wsdl:port name="testJaxWs" binding="tns:ExpertiseSluchBinding">
-            <soap12:address location="http://user323.test/ws/expertise"/>
+            <soap12:address location="https://expertus-krsk.herokuapp.com/ws/expertise"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>
