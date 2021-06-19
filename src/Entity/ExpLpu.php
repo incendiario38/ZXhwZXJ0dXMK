@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ExpLpu
  *
  * @ORM\Table(name="exp_lpu", uniqueConstraints={@ORM\UniqueConstraint(name="exp_lpu_lpu_id_uindex", columns={"lpu_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ExpLpuRepository")
  */
 class ExpLpu
 {
