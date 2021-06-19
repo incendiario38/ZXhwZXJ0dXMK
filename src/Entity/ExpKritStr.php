@@ -85,13 +85,6 @@ class ExpKritStr
      */
     private $idZag;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="usl_code", type="string", length=255, nullable=true)
-     */
-    private $uslCode;
-
     public function getId(): ?string
     {
         return $this->id;

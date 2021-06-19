@@ -11,7 +11,7 @@
             var $uslCollectionHolder = $('ul#usl-fields-list');
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
-            $uslCollectionHolder.data('index', $uslCollectionHolder.find('input').length);
+            $uslCollectionHolder.data('index', $uslCollectionHolder.find('li').length);
 
             $uslCollectionHolder.find('li').each(function() {
                 addFormDeleteLink($(this));
