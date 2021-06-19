@@ -3,23 +3,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            {% if app.user.vrach %}
-                {% set fio = app.user.vrach.fio %}
-                {% set lpu = app.user.vrach.lpu.name %}
-                {% set prof = app.user.vrach.prof %}
-                {% set snils = app.user.vrach.snils %}
-            {% else %}
-                {% set fio = 'Незаполнено' %}
-                {% set lpu = 'Незаполнено' %}
-                {% set prof = 'Незаполнено' %}
-                {% set snils = 'Незаполнено' %}
-            {% endif %}
 
-            {% include 'inc/profile.html.twig' %}
-        </div>
-    </div>
+
+
     <script>
         // add-collection-widget.js
         jQuery(document).ready(function () {
@@ -42,27 +28,117 @@
                 // create a new list element and add it to the list
                 var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
                 newElem.appendTo(list);
+
+                $('.selectpickerusl').selectpicker({
+                    liveSearchPlaceholder: "Поиск диагноза",
+                    noneSelectedText: 'Диагноз не выбран',
+                    liveSearch: true,
+                });
+            });
+
+            $('.selectpickerusl').selectpicker({
+                liveSearchPlaceholder: "Поиск диагноза",
+                noneSelectedText: 'Диагноз не выбран',
+                liveSearch: true,
             });
         });
+
+        $(function () {
+            $('.selectpicker').selectpicker({
+                liveSearchPlaceholder: "Поиск пациента",
+                noneSelectedText: 'Пациент не выбран',
+                liveSearch: true,
+            });
+            $('.selectpickermkb').selectpicker({
+                liveSearchPlaceholder: "Поиск диагноза",
+                noneSelectedText: 'Диагноз не выбран',
+                liveSearch: true,
+                selectedText: 'cat'
+            });
+
+        });
+
     </script>
+    <style>
+        #sluch-block .form-group .datepicker{
+            margin: 10px;
+        }
+    </style>
     {{ form_start(form) }}
-    <ul id="email-fields-list"
-        data-prototype="{{ form_widget(form.usl.vars.prototype)|e }}"
-        data-widget-tags="{{ '<li></li>'|e }}"
-        data-widget-counter="{{ form.usl|length }}">
-        {% for emailField in form.usl %}
-            <li>
-                {{ form_errors(emailField) }}
-                {{ form_widget(emailField) }}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-md-6 mb-6" style="border-right: 1px dashed #6c8bc0;">
+            <div class="form-group">
+                {{ form_errors(form.patient) }}
+                <label for="patient">{{ form_label(form.patient) }}</label>
+                {{ form_widget(form.patient) }}
+                <small id="emailHelp" class="form-text text-muted">Выберите пациента, которому проводится
+                    лечение</small>
+            </div>
+            <div class="form-group row">
+                {{ form_errors(form.nMedCard) }}
+                <label for="nMedCard" class="col-sm-5 col-form-label">{{ form_label(form.nMedCard) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.nMedCard) }}</div>
+            </div>
+            <div class="form-group row">
+                {{ form_errors(form.dbeg) }}
+                <label for="dbeg" class="col-sm-5 col-form-label">{{ form_label(form.dbeg) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.dbeg) }}</div>
+            </div>
+            <div class="form-group row">
+                {{ form_errors(form.dend) }}
+                <label for="dend" class="col-sm-5 col-form-label">{{ form_label(form.dend) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.dend) }}</div>
+            </div>
+            <div class="form-group">
+                {{ form_errors(form.mkb) }}
+                <label for="mkb">{{ form_label(form.mkb) }}</label>
+                {{ form_widget(form.mkb) }}
+                <small id="emailHelp" class="form-text text-muted">Выберите основной диагноз пациента из списка</small>
+            </div>
 
-    <button type="button"
-            class="add-another-collection-widget"
-            data-list-selector="#email-fields-list">Add another email
-    </button>
+            <div class="form-group row">
+                {{ form_errors(form.uslOk) }}
+                <label for="uslOk" class="col-sm-5 col-form-label">{{ form_label(form.uslOk) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.uslOk) }}</div>
+            </div>
+
+            <div class="form-group row">
+                {{ form_errors(form.forma) }}
+                <label for="forma" class="col-sm-5 col-form-label">{{ form_label(form.forma) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.forma) }}</div>
+            </div>
+
+            <div class="form-group row">
+                {{ form_errors(form.stage) }}
+                <label for="forma" class="col-sm-5 col-form-label">{{ form_label(form.stage) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.stage) }}</div>
+            </div>
+
+            <div class="form-group row">
+                {{ form_errors(form.phase) }}
+                <label for="forma" class="col-sm-5 col-form-label">{{ form_label(form.phase) }}</label>
+                <div class="col-sm-7">{{ form_widget(form.phase) }}</div>
+            </div>
+
+        </div>
+        <div class="col-md-6 mb-6" id="sluch-block">
+            <ul id="usl-fields-list" style="list-style: none"
+                data-prototype="{{ form_widget(form.usl.vars.prototype)|e }}"
+                data-widget-tags="{{ '<li class="form-group row"></li>'|e }}"
+                data-widget-counter="{{ form.usl|length }}">
+                {% for uslField in form.usl %}
+                    <li class="form-group row">
+                        {{ form_errors(uslField) }}
+                        {#{{ form_label(uslField) }}#}
+                        {{ form_widget(uslField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {#<button type="button" class="add-another-collection-widget" data-list-selector="#email-fields-list">Add another email
+            </button>#}
+            <button type="button" class="btn btn-info add-another-collection-widget"  style="margin: auto;display: block;" data-list-selector="#usl-fields-list">Добавить услугу</button>
+        </div>
+    </div>
     {{ form_rest(form) }}
-
 
 {% endblock %}

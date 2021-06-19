@@ -7,7 +7,6 @@ namespace App\Form;
 use App\Entity\ExpMkb10;
 use App\Entity\ExpPatient;
 use App\Entity\ExpSluch;
-use App\Entity\ExpUsl;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -15,12 +14,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DoctorSluchForm extends AbstractType
 {
@@ -39,7 +38,7 @@ class DoctorSluchForm extends AbstractType
         }
 
         $builder->add('patient', EntityType::class, [
-            'label' => 'Способ взаимодействия',
+            'label' => 'Пациент',
             'class' => ExpPatient::class,
             'choice_label' => function (ExpPatient $pu) {
                 return $pu->getFam() . " " . $pu->getIm() . " " . $pu->getOt();
@@ -57,6 +56,9 @@ class DoctorSluchForm extends AbstractType
                 'autocomplete' => 'off'
             ],
             'attr' => [
+                'id' => 'patient',
+                'data-width' => "100%",
+                'class' => 'selectpicker',
                 'autocomplete' => 'off'
             ],
         ])->add('nMedCard', NumberType::class, [
@@ -66,18 +68,24 @@ class DoctorSluchForm extends AbstractType
                 'autocomplete' => 'off'
             ],
             'attr' => [
-                'autocomplete' => 'off'
+                'style' => 'width: 100%',
+                'id' => 'nMedCard',
+                'autocomplete' => 'off',
+                'class' => 'form-control'
             ],
         ])->add('dbeg', DateType::class, [
             'label' => 'Дата начала лечения',
             'required' => true,
-            'widget'=>'single_text',
+            'html5' => false,
+            'widget' => 'single_text',
+            'format' => 'dd.MM.yyyy',
             'label_attr' => [
                 'autocomplete' => 'off'
             ],
             'attr' => array(
+                'id' => 'dbeg',
                 'autocomplete' => 'off',
-                'class' => 'datepicker',
+                'class' => 'datepicker form-control',
                 'data-provide' => "datepicker",
                 'data-date-format' => "dd.mm.yyyy",
                 'data-date-language' => "ru-RU",
@@ -85,13 +93,16 @@ class DoctorSluchForm extends AbstractType
         ])->add('dend', DateType::class, [
             'label' => 'Дата окончания лечения',
             'required' => true,
-            'widget'=>'single_text',
+            'html5' => false,
+            'widget' => 'single_text',
+            'format' => 'dd.MM.yyyy',
             'label_attr' => [
                 'autocomplete' => 'off'
             ],
             'attr' => array(
+                'id' => 'dend',
                 'autocomplete' => 'off',
-                'class' => 'datepicker',
+                'class' => 'datepicker form-control',
                 'data-provide' => "datepicker",
                 'data-date-format' => "dd.mm.yyyy",
                 'data-date-language' => "ru-RU",
@@ -115,6 +126,9 @@ class DoctorSluchForm extends AbstractType
                 'autocomplete' => 'off'
             ],
             'attr' => [
+                'id' => 'mkb',
+                'data-width' => "100%",
+                'class' => 'selectpickermkb',
                 'autocomplete' => 'off'
             ],
         ])->add('uslOk', ChoiceType::class, [
@@ -128,6 +142,10 @@ class DoctorSluchForm extends AbstractType
             'required' => true,
             'placeholder' => false,
             'empty_data' => null,
+            'attr' => [
+                'class' => 'form-control',
+                'id' => 'uslOk',
+            ],
         ])->add('forma', ChoiceType::class, [
             'label' => 'Форма оказания медицинской помощи',
             'choices' => [
@@ -139,6 +157,10 @@ class DoctorSluchForm extends AbstractType
             'required' => true,
             'placeholder' => false,
             'empty_data' => null,
+            'attr' => [
+                'class' => 'form-control',
+                'forma' => 'stage',
+            ],
         ])->add('stage', ChoiceType::class, [
             'label' => 'Степень тяжести',
             'choices' => [
@@ -149,6 +171,10 @@ class DoctorSluchForm extends AbstractType
             'required' => true,
             'placeholder' => false,
             'empty_data' => null,
+            'attr' => [
+                'class' => 'form-control',
+                'id' => 'stage',
+            ],
         ])->add('phase', ChoiceType::class, [
             'label' => 'Фаза состояния',
             'choices' => [
@@ -159,15 +185,20 @@ class DoctorSluchForm extends AbstractType
             'required' => true,
             'placeholder' => false,
             'empty_data' => null,
+            'attr' => [
+                'class' => 'form-control',
+                'id' => 'phase',
+            ],
         ])->add('usl', CollectionType::class, [
-            'entry_type'   => SluchLekUslForm::class,
+            'entry_type' => SluchLekUslForm::class,
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true
         ])->add('save', SubmitType::class, array(
                 'label' => 'Сохранить',
                 'attr' => array(
-                    'class' => 'btn-primary',
+                    'class' => 'btn btn-success btn-lg',
+                    'style' => 'display:block; margin:auto'
                 ),
             )
         );
