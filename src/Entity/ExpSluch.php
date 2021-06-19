@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * ExpSluch
  *
  * @ORM\Table(name="exp_sluch", uniqueConstraints={@ORM\UniqueConstraint(name="exp_sluch_id_uindex", columns={"id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ExpSluchRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class ExpSluch

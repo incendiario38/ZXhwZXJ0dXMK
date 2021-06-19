@@ -130,6 +130,8 @@ class Sendsluch
             $em->persist($sluchNew);
             $em->flush();
 
+            $em->getRepository(ExpSluch::class)->runProcedureCheckData($sluchNew->getId());
+
         }
 
 

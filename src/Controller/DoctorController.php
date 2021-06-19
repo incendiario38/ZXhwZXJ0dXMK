@@ -59,6 +59,10 @@ class DoctorController extends AbstractController
 
             $id = $data->getId();
 
+            $this->get('doctrine')->getManager()
+                ->getRepository(ExpSluch::class)
+                ->runProcedureCheckData($id);
+
             return $this->redirect("/doctor/newsluch/" . $id);
         }
 
