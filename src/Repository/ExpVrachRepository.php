@@ -234,13 +234,11 @@ SQL;
     public function getUslBySluch(int $id): array
     {
         $sql = <<<SQL
-select exp_sluch_usl.usl_code, exp_usl.name
-from exp_sluch
-    join exp_sluch_usl on exp_sluch.id = exp_sluch_usl.id_sluch
-join exp_usl on exp_usl.usl_code = exp_sluch_usl.usl_code
-
-where exp_sluch.id = :id and exp_sluch.status = 2
-  and exp_sluch_usl.krit_zag is null and exp_sluch_usl.krit_str is null
+select u.usl_code, u.name
+from exp_sluch join exp_sluch_usl on exp_sluch.id = exp_sluch_usl.id_sluch
+               join exp_usl u on u.usl_code = exp_sluch_usl.usl_code
+ where exp_sluch.id = :id
+   and not exists(select 1 from exp_std_usl where exp_std_usl.id_std = exp_sluch_usl.no_std and exp_std_usl.kod_usl = exp_sluch_usl.usl_code)
 SQL;
 
         $rsm = new ResultSetMapping();
