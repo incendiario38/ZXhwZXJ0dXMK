@@ -45,4 +45,19 @@
             </div>
         </div>
     </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="card-grid row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-success">Интеграция</strong>
+                    <h3 class="mb-0">SOAP сервис для МИС</h3>
+                    {# <div class="mb-1 text-muted">Nov 11</div> #}
+                    <a href="{{ path('ws_expertise', {'trailingSlash' : '/'}) }}?wsdl" target="_blank" class="stretched-link"></a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ asset('/img/icon/api.png') }}" height="110px"/>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

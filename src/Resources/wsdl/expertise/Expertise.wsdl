@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        name="expertise"
+        xmlns:tns="http://www.expertus.ru"
+        targetNamespace="http://www.expertus.ru">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                    xmlns:tns="http://www.expertus.ru"
+                    targetNamespace="http://www.expertus.ru">
+
+            <xsd:element name="sendsluch" type="tns:sendsluch"/>
+
+            <xsd:complexType name="sendsluch">
+                <xsd:sequence>
+                    <xsd:element name="sluch" type="tns:sluch" minOccurs="1" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="sluch">
+                <xsd:sequence>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="idVrach" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Идентификатор врача</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="enp" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Единый номер полиса</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="nMedCard" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Номер истории болезни</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="dbeg" type="xsd:date">
+                        <xsd:annotation>
+                            <xsd:documentation>Дата начала лечения</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="dend" type="xsd:date">
+                        <xsd:annotation>
+                            <xsd:documentation>Дата окончания лечения</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="mkb" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Основной диагноз</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="uslOk" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Условия оказания медицинской помощи</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="forma" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Форма оказания медицинской помощи</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="stage" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Степень тяжести</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="phase" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Фаза состояния</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="uslCollection" type="tns:uslCollection">
+                        <xsd:annotation>
+                            <xsd:documentation>Набор оказанных медицинских услуг</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                    <xsd:element minOccurs="1" maxOccurs="1" name="lekCollection" type="tns:lekCollection">
+                        <xsd:annotation>
+                            <xsd:documentation>Набор выписанных препаратов</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="uslCollection">
+                <xsd:sequence>
+                    <xsd:element name="usl" minOccurs="1" maxOccurs="unbounded" type="tns:uslItem">
+                        <xsd:annotation>
+                            <xsd:documentation>Оказанная медицинская услуга</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="lekCollection">
+                <xsd:sequence>
+                    <xsd:element name="lek" minOccurs="1" maxOccurs="unbounded" type="tns:lekItem">
+                        <xsd:annotation>
+                            <xsd:documentation>Оказанная медицинская услуга</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="uslItem">
+                <xsd:sequence>
+                    <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Идентификатор услуги</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="dateUsl" minOccurs="1" maxOccurs="1" type="xsd:date">
+                        <xsd:annotation>
+                            <xsd:documentation>Идентификатор услуги</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="lekItem">
+                <xsd:sequence>
+                    <xsd:element name="lekName" minOccurs="1" maxOccurs="1" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Наименование лекарственного</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- wrapper element of the response message -->
+            <xsd:element name="result" type="tns:result"/>
+
+            <xsd:complexType name="result">
+                <xsd:sequence>
+                    <xsd:element name="status" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+        </xsd:schema>
+    </wsdl:types>
+
+    <!-- Request message -->
+    <wsdl:message name="ExpertiseSluchRequest">
+        <wsdl:part name="inputParameters" element="tns:sendsluch"/>
+    </wsdl:message>
+
+    <!-- Response message -->
+    <wsdl:message name="ExpertiseSluchResponse">
+        <wsdl:part name="outputParameters" element="tns:result"/>
+    </wsdl:message>
+
+    <!-- Port type -->
+    <wsdl:portType name="TestJaxWs">
+        <!-- Operation -->
+        <wsdl:operation name="sendsluch">
+            <wsdl:input message="tns:ExpertiseSluchRequest"/>
+            <wsdl:output message="tns:ExpertiseSluchResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <!-- Binding (SOAP 1.2/HTTP binding) -->
+    <wsdl:binding name="ExpertiseSluchBinding" type="tns:TestJaxWs">
+        <!-- document/literal/wrapped -->
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <!-- Operation -->
+        <wsdl:operation name="sendsluch">
+            <soap12:operation soapAction="/"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <!-- Service -->
+    <wsdl:service name="ExpertiseSluch">
+        <!-- Port -->
+        <wsdl:port name="testJaxWs" binding="tns:ExpertiseSluchBinding">
+            <soap12:address location="http://user323.test/ws/expertise"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
