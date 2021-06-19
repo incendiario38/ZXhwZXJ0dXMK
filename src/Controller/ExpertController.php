@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Entity\ExpKritLek;
 use App\Entity\ExpKritUsl;
+use App\Entity\ExpStdPrep;
+use App\Entity\ExpStdUsl;
 use App\Entity\Role;
 use App\Form\ExpertKritForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,9 +60,10 @@ class ExpertController extends AbstractController
 
 
                 foreach ($dataset as $item) {
+                    $stdUsl = $this->getDoctrine()->getRepository(ExpStdPrep::class)->find($item->getIdStdPrep());
                     $formData['lek'][] = [
-                        'expStd' => $item->getIdStdUsl()->getIdStd() ."",
-                        'std_prep' => $item->getIdStdUsl()->getId() ."",
+                        'expStd' => $stdUsl->getIdStd() ."",
+                        'std_prep' => $stdUsl->getId() ."",
                     ];
                 }
             }
