@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ExpStd
  *
- * @ORM\Table(name="exp_std", uniqueConstraints={@ORM\UniqueConstraint(name="exp_std_id_uindex", columns={"id"})})
+ * @ORM\Table(name="exp_std")
  * @ORM\Entity
  */
 class ExpStd
@@ -15,10 +15,8 @@ class ExpStd
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id_std", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="exp_std_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -29,12 +27,6 @@ class ExpStd
      */
     private $std;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mkb", type="string", length=200, nullable=true, options={"comment"="Диагноз"})
-     */
-    private $mkb;
 
     /**
      * @var string|null
@@ -58,11 +50,11 @@ class ExpStd
     private $faza;
 
     /**
-     * @var int|null
+     * @var string|null
      *
-     * @ORM\Column(name="id_std", type="integer", nullable=true, options={"comment"="Идентификатор стандарта"})
+     * @ORM\Column(name="doc", type="string", length=10, nullable=true, options={"comment"="Фаза"})
      */
-    private $idStd;
+    private $doc;
 
     public function getId(): ?int
     {
@@ -140,6 +132,28 @@ class ExpStd
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDoc(): ?string
+    {
+        return $this->doc;
+    }
+
+    /**
+     * @param string|null $doc
+     *
+     * @return ExpStd
+     */
+    public function setDoc(?string $doc): ExpStd
+    {
+        $this->doc = $doc;
+
+        return $this;
+    }
+
+
 
 
 }

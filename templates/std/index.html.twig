@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_rest(form) }}
+
+    {% if std is defined and std %}
+        <h4 class="mt-2">Информация о стандарте</h4>
+        <div class="row mb-1">
+            <div class="col-4">Наименование стандарта</div>
+            <div class="col-8">{{ std.std }}</div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-4">Приказ</div>
+            <div class="col-8">{{ std.prikaz }} <a href="{{ asset(std.doc) }}" class="btn btn-sm btn-first">Скачать</a>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-4">Категория</div>
+            <div class="col-8">{{ std.vzKat }}</a>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-4">Фаза состояния</div>
+            <div class="col-8">{{ std.faza == 1 ? 'Острая' : 'Нет' }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if mkb is defined and mkb|length > 0 %}
+        <h4 class="mt-2">Список МКБ</h4>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Код МКБ</th>
+                <th>Диагноз</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in mkb %}
+                <tr>
+                    <td>{{ m.kodMkb }}</td>
+                    <td>{{ m.mkb }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if usl is defined and usl|length > 0 %}
+        <h4 class="mt-2">Список услуг стандарта</h4>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Код услуги</th>
+                <th>Наименование</th>
+                <th>Усредненный показатель частоты предоставления</th>
+                <th>Усредненный показатель кратности применения</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in usl %}
+                <tr>
+                    <td>{{ m.kodUsl }}</td>
+                    <td>{{ m.nameUsl }}</td>
+                    <td>{{ m.srPok }}</td>
+                    <td>{{ m.srPokKrat }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if lek is defined and lek|length > 0 %}
+        <h4 class="mt-2">Список препаратов</h4>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Код</th>
+                <th>Классификация</th>
+                <th>Наименование</th>
+                <th>Усредненный показатель частоты предоставления</th>
+                <th>Единица измерения</th>
+                <th>ССД</th>
+                <th>СКД</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in lek %}
+                <tr>
+                    <td>{{ m.kod }}</td>
+                    <td>{{ m.klass }}</td>
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.pok }}</td>
+                    <td>{{ m.ed }}</td>
+                    <td>{{ m.ssd }}</td>
+                    <td>{{ m.skd }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
