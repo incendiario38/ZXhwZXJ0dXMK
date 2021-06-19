@@ -25,7 +25,8 @@ class DoctorSluchForm extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
+     *
      * @throws \Exception
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -33,7 +34,7 @@ class DoctorSluchForm extends AbstractType
         $em = $options["em"];
         /** @var User $user */
         $user = $options["user"];
-        if (!$em instanceof EntityManager) {
+        if (! $em instanceof EntityManager) {
             throw new \Exception('Необходимо передать объект: ' . EntityManager::class);
         }
 
@@ -53,25 +54,25 @@ class DoctorSluchForm extends AbstractType
                         ->setParameter('lpu', $user->getVrach()->getLpu()->getLpuId());
             },
             'label_attr' => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
             'attr' => [
                 'id' => 'patient',
                 'data-width' => "100%",
                 'class' => 'selectpicker',
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
         ])->add('nMedCard', NumberType::class, [
             'label' => 'Номер истории болезни',
             'required' => true,
             'label_attr' => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
             'attr' => [
                 'style' => 'width: 100%',
                 'id' => 'nMedCard',
                 'autocomplete' => 'off',
-                'class' => 'form-control'
+                'class' => 'form-control',
             ],
         ])->add('dbeg', DateType::class, [
             'label' => 'Дата начала лечения',
@@ -80,16 +81,16 @@ class DoctorSluchForm extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd.MM.yyyy',
             'label_attr' => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
-            'attr' => array(
+            'attr' => [
                 'id' => 'dbeg',
                 'autocomplete' => 'off',
                 'class' => 'datepicker form-control',
                 'data-provide' => "datepicker",
                 'data-date-format' => "dd.mm.yyyy",
                 'data-date-language' => "ru-RU",
-            ),
+            ],
         ])->add('dend', DateType::class, [
             'label' => 'Дата окончания лечения',
             'required' => true,
@@ -97,16 +98,16 @@ class DoctorSluchForm extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd.MM.yyyy',
             'label_attr' => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
-            'attr' => array(
+            'attr' => [
                 'id' => 'dend',
                 'autocomplete' => 'off',
                 'class' => 'datepicker form-control',
                 'data-provide' => "datepicker",
                 'data-date-format' => "dd.mm.yyyy",
                 'data-date-language' => "ru-RU",
-            ),
+            ],
         ])->add('mkb', EntityType::class, [
             'label' => 'Основной диагноз',
             'class' => ExpMkb10::class,
@@ -122,21 +123,31 @@ class DoctorSluchForm extends AbstractType
                         ->andWhere('t.enable = 1');
             },
             'label_attr' => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
             'attr' => [
                 'id' => 'mkb',
                 'data-width' => "100%",
                 'class' => 'selectpickermkb',
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
         ])->add('uslOk', ChoiceType::class, [
             'label' => 'Условия оказания медицинской помощи',
             'choices' => [
                 'Стационар' => 0,
                 'Поликлиника' => 4,
-                'Скорая помощь' => 9
+                'Скорая помощь' => 9,
             ],
+            'choice_attr' => function ($val, $key, $index) {
+
+                $attr = [];
+
+                if ($val != 0) {
+                    $attr['disabled'] = 'disabled';
+                }
+
+                return $attr;
+            },
             'multiple' => false,
             'required' => true,
             'placeholder' => false,
@@ -150,7 +161,7 @@ class DoctorSluchForm extends AbstractType
             'choices' => [
                 'Плановая' => 1,
                 'Экстренная' => 2,
-                'Неотложная' => 3
+                'Неотложная' => 3,
             ],
             'multiple' => false,
             'required' => true,
@@ -193,20 +204,20 @@ class DoctorSluchForm extends AbstractType
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true,
-            'label' => false
+            'label' => false,
         ])->add('lek', CollectionType::class, [
             'entry_type' => SluchLekForm::class,
             'allow_add' => true,
             'entry_options' => ['em' => $em],
             'prototype' => true,
-            'label' => false
-        ])->add('save', SubmitType::class, array(
+            'label' => false,
+        ])->add('save', SubmitType::class, [
                 'label' => 'Сохранить',
-                'attr' => array(
+                'attr' => [
                     'class' => 'btn btn-success btn-lg',
-                    'style' => 'display:block; margin:auto'
-                ),
-            )
+                    'style' => 'display:block; margin:auto',
+                ],
+            ]
         );
 
         $builder->setMethod(Request::METHOD_POST);
@@ -219,10 +230,10 @@ class DoctorSluchForm extends AbstractType
     {
         $resolver->setRequired('em');
         $resolver->setRequired('user');
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => ExpSluch::class,
-            'cascade_validation' => true
-        ));
+            'cascade_validation' => true,
+        ]);
     }
 
     /**
