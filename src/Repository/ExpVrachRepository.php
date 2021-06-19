@@ -62,6 +62,7 @@ select t.id_pers,
        p.ot,
        p.dr,
        p.mr,
+       t.status,
        CASE
            WHEN p.w = 1 then
                'Мужской'
@@ -94,6 +95,7 @@ SQL;
         $rsm->addScalarResult('mr', 'mr');
         $rsm->addScalarResult('w', 'w');
         $rsm->addScalarResult('enp', 'enp');
+        $rsm->addScalarResult('status', 'status');
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         $query->setParameter('vrach', $vrach->getId());
