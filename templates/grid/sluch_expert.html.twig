@@ -15,9 +15,13 @@
                     <td>{{ row.vid }}</td>
                     <td>
                         <div class="d-flex justify-content-center text-white">
-                            {% if row.check_all %}
-                                <div class="rounded-circle bg-info">
+                            {% if row.check_all == 1 %}
+                                <div class="rounded-circle bg-success">
                                     <span aria-hidden="true">&check;</span>
+                                </div>
+                            {% elseif row.check_all == 2 %}
+                                <div class="rounded-circle bg-secondary">
+                                    <span aria-hidden="true">&cross;</span>
                                 </div>
                             {% else %}
                                 <div class="rounded-circle bg-danger">
