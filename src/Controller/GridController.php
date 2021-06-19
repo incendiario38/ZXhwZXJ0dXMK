@@ -65,7 +65,6 @@ class GridController extends AbstractController
         }
 
         $sluch = $this->getDoctrine()->getRepository(ExpVrach::class)->getExpSluchById($id);
-        \dump($sluch);
 
         if ($sluch['status'] = 2) {
             $usl = $this->getDoctrine()->getRepository(ExpVrach::class)->getUslBySluch($id);
