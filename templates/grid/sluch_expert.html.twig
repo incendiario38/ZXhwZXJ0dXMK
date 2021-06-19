@@ -2,9 +2,7 @@
     <thead>
     <tr>
         <th>Критерий</th>
-        <th>Услуга</th>
-        <th>Лекарство</th>
-        <th>Итого</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -12,32 +10,6 @@
         {% for row in data %}
             <tr>
                 <td>{{ row.vid }}</td>
-                <td>
-                    <div class="d-flex justify-content-center text-white">
-                        {% if row.check_usl %}
-                            <div class="rounded-circle bg-info">
-                                <span aria-hidden="true">&check;</span>
-                            </div>
-                        {% else %}
-                            <div class="rounded-circle bg-danger">
-                                <span aria-hidden="true">&cross;</span>
-                            </div>
-                        {% endif %}
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-center text-white">
-                        {% if row.check_lek %}
-                            <div class="rounded-circle bg-info">
-                                <span aria-hidden="true">&check;</span>
-                            </div>
-                        {% else %}
-                            <div class="rounded-circle bg-danger">
-                                <span aria-hidden="true">&cross;</span>
-                            </div>
-                        {% endif %}
-                    </div>
-                </td>
                 <td>
                     <div class="d-flex justify-content-center text-white">
                         {% if row.check_all %}
