@@ -121,7 +121,7 @@ class ExpertKritForm extends AbstractType
                 'choices' => $list_krit_str,
                 'choice_value' => 'id',
                 'choice_label' => function (?ExpKritStr $category) {
-                    return $category ? $category->getNom() . ' ' . $category->getKrit() : '';
+                    return $category ? \mb_substr($category->getNom() . ' ' . $category->getKrit(),0, 120) . '...' : '';
                 },
                 'multiple' => false,
                 'placeholder' => 'Выберите критерий',
