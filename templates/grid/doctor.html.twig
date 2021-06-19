@@ -50,7 +50,7 @@
                 <div class="modal-dialog  modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Экспертное заключение</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Экспертное заключение <span></span></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -85,9 +85,11 @@
             $expertModal.on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var sluch = button.data('id') // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                var kritZag = button.data('krit-zag');
+                // If necessary, you could' initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var $modal = $(this).find('.modal-body');
+                $(this).find('h5 > span').html('- Группа критериев ' + kritZag);
 
                 $.ajax({
                     type: 'POST',
@@ -107,6 +109,7 @@
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var $modal = $(this).find('.modal-body');
+                $(this).find('h5 > span').html('');
 
                 $modal.html('<div class="spinner-border mx-auto" role="status"><span class="sr-only">Загрузка...</span></div>');
 
@@ -147,8 +150,25 @@
                     {
                         data: null,
                         render: function (data, type, row) {
+                            let colorClass = 'btn-first';
+                            switch (data.status) {
+                                case 1:
+                                    colorClass = 'btn-success';
+                                    break;
+                                case 2:
+                                    colorClass = 'btn-danger';
+                                    break;
+                            }
+
                             return '<div class="d-flex justify-content-center">' +
-                                '<button class="btn btn-first" data-toggle="modal" data-target="#expertModal" data-id="' + data.id + '" title="Экспертное заключение">&telrec;</button>' +
+                                '<button class="btn '+colorClass+' py-1 px-2" data-toggle="modal" ' +
+                                'data-target="#expertModal" data-id="' + data.id + '" title="Экспертное заключение"' +
+                                ' data-krit-zag="' + data.krit_zag +'">'+
+                                '<svg width="24px" height="24px" aria-hidden="true" focusable="false" data-prefix="fad" data-icon="tasks" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-tasks fa-w-16 fa-3x"><g class="fa-group"><path fill="currentColor" d="M496 384H208a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-320H208a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 160H208a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" class="fa-secondary"></path><path fill="currentColor" d="M139.61 35.5a12 12 0 0 0-17 0L58.93 98.81l-22.7-22.12a12 12 0 0 0-17 0L3.53 92.41a12 12 0 0 0 0 17l47.59 47.4a12.78 12.78 0 0 0 17.61 0l15.59-15.62L156.52 69a12.09 12.09 0 0 0 .09-17zm0 159.19a12 12 0 0 0-17 0l-63.68 63.72-22.7-22.1a12 12 0 0 0-17 0L3.53 252a12 12 0 0 0 0 17L51 316.5a12.77 12.77 0 0 0 17.6 0l15.7-15.69 72.2-72.22a12 12 0 0 0 .09-16.9zM64 368c-26.49 0-48.59 21.5-48.59 48S37.53 464 64 464a48 48 0 0 0 0-96z" class="fa-primary"></path></g></svg>'+
+                                '</button>' +
+                                '<a href="/doctor/newsluch/' + data.id+ '" class="btn btn-first py-1 px-2 ml-2" title="Редактировать случай лечения">' +
+                                '<svg width="24px" height="24px" aria-hidden="true" focusable="false" data-prefix="far" data-icon="pen" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-pen fa-w-16 fa-3x"><path fill="currentColor" d="M493.26 56.26l-37.51-37.51C443.25 6.25 426.87 0 410.49 0s-32.76 6.25-45.25 18.74l-74.49 74.49L256 127.98 12.85 371.12.15 485.34C-1.45 499.72 9.88 512 23.95 512c.89 0 1.79-.05 2.69-.15l114.14-12.61L384.02 256l34.74-34.74 74.49-74.49c25-25 25-65.52.01-90.51zM118.75 453.39l-67.58 7.46 7.53-67.69 231.24-231.24 31.02-31.02 60.14 60.14-31.02 31.02-231.33 231.33zm340.56-340.57l-44.28 44.28-60.13-60.14 44.28-44.28c4.08-4.08 8.84-4.69 11.31-4.69s7.24.61 11.31 4.69l37.51 37.51c6.24 6.25 6.24 16.4 0 22.63z" class=""></path></svg>'+
+                                '</a>' +
                                 '</div>';
                         }
                     }

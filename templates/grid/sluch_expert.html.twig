@@ -1,35 +1,77 @@
-<table class="table table-striped table-bordered">
-    <thead>
-    <tr>
-        <th>Критерий</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if data|length > 0 %}
-        {% for row in data %}
-            <tr>
-                <td>{{ row.vid }}</td>
-                <td>
-                    <div class="d-flex justify-content-center text-white">
-                        {% if row.check_all %}
-                            <div class="rounded-circle bg-info">
-                                <span aria-hidden="true">&check;</span>
-                            </div>
-                        {% else %}
-                            <div class="rounded-circle bg-danger">
-                                <span aria-hidden="true">&cross;</span>
-                            </div>
-                        {% endif %}
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-    {% else %}
+<div class="d-flex flex-column" style="flex:1">
+    <table class="table table-striped table-bordered w-100">
+        <thead>
         <tr>
-            <td colspan="4">Записи отсутствуют</td>
+            <th>Критерий</th>
+            <th>Статус</th>
         </tr>
-    {% endif %}
-    </tbody>
+        </thead>
+        <tbody>
+        {% if data|length > 0 %}
+            {% for row in data %}
+                <tr>
+                    <td>{{ row.vid }}</td>
+                    <td>
+                        <div class="d-flex justify-content-center text-white">
+                            {% if row.check_all %}
+                                <div class="rounded-circle bg-info">
+                                    <span aria-hidden="true">&check;</span>
+                                </div>
+                            {% else %}
+                                <div class="rounded-circle bg-danger">
+                                    <span aria-hidden="true">&cross;</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">Записи отсутствуют</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
 
-</table>
+    {% if usl|length > 0 or lek|length > 0 %}
+        <table class="table table-striped table-bordered mt-2 w-100">
+            <thead>
+            <tr>
+                <th>Нет в стандарте</th>
+            </tr>
+            </thead>
+            {% if usl|length > 0 %}
+                <thead>
+                <tr>
+                    <th>Услуги</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for u in usl %}
+                    <tr>
+                        <td>{{ u.usl_code }} - {{ u.name }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            {% endif %}
+            {% if lek|length > 0 %}
+                <thead>
+                <tr>
+                    <th>Лекарства</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in lek %}
+                    <tr>
+                        <td>{{ u.lek_name }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            {% endif %}
+        </table>
+    {% endif %}
+</div>
