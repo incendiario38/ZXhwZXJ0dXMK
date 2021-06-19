@@ -40,6 +40,14 @@
     </div>
 
 
+    {% if form.mkb is defined and form.mkb %}
+        <div class="form-group">
+            {{ form_errors(form.mkb) }}
+            {{ form_label(form.mkb) }}
+            {{ form_widget(form.mkb) }}
+        </div>
+    {% endif %}
+
     {% if form.krit_zag is defined and form.krit_zag %}
         <div class="form-group">
             {{ form_errors(form.krit_zag) }}

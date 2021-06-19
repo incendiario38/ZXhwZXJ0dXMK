@@ -8,6 +8,7 @@ use App\Entity\ExpKritLek;
 use App\Entity\ExpKritStr;
 use App\Entity\ExpKritUsl;
 use App\Entity\ExpKritZag;
+use App\Entity\ExpStdMkb;
 use App\Entity\ExpStdUsl;
 use App\Entity\ExtStd;
 use Doctrine\ORM\EntityManager;
@@ -58,9 +59,32 @@ class ExpertKritForm extends AbstractType
             ]);
 
         if (isset($data['expStd']) && ! empty($data['expStd'])) {
-            $expStd = $em->getRepository(ExtStd::class)->find($data['expStd']);
+            $expMkb = $em->getRepository(ExpStdMkb::class)->findBy(['std' =>$data['expStd']]);
 
-            $expKritZagAll = $em->getRepository(ExpKritZag::class)->findBy(['vz' => $expStd->getVzkat(), 'phase'=>$expStd->getPhase()], ['zag'=>'ASC']);
+            $builder->add('mkb', ChoiceType::class, [
+                'label' => 'МКБ',
+                'choices' => $expMkb,
+                'choice_value' => 'id',
+                'choice_label' => function (?ExpStdMkb $category) {
+                    return $category ? $category->getKodMkb() . ' ' . $category->getMkb() : '';
+                },
+                'multiple' => false,
+                'placeholder' => 'Выберите МКБ',
+                'label_attr' => [
+                    'autocomplete' => 'off',
+                ],
+                'attr' => [
+                    'data-width' => "100%",
+                    'class' => 'selectpicker',
+                    'data-live-search' => true,
+                    'autocomplete' => 'off',
+                    'onchange' => 'this.form.submit()',
+                ],
+            ]);
+        }
+
+        if (isset($data['mkb']) && ! empty($data['mkb'])) {
+            $expKritZagAll = $em->getRepository(ExpKritZag::class)->getStd($data['expStd'], $data['mkb']);
 
             $builder->add('krit_zag', ChoiceType::class, [
                 'label' => 'Группа критериев',
