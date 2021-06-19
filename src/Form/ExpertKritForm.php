@@ -91,7 +91,7 @@ class ExpertKritForm extends AbstractType
                 'choices' => $expKritZagAll,
                 'choice_value' => 'id',
                 'choice_label' => function (?ExpKritZag $category) {
-                    return $category ? $category->getZag() . ' ' . $category->getKrit() : '';
+                    return $category ? \mb_substr($category->getZag() . ' ' . $category->getKrit(),0, 120) . '...' : '';
                 },
                 'multiple' => false,
                 'placeholder' => 'Выберите группу критериев',
