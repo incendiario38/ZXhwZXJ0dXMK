@@ -94,4 +94,77 @@ class DashboardController extends AbstractController
             'stat' => json_encode($option),
         ]);
     }
+
+    /**
+     * @Route("/expert/report", name="expert_report")
+     */
+    public function report(): Response
+    {
+        $this->denyAccessUnlessGranted(Role::EXPERT);
+
+        $em = $this->get('doctrine')->getManager();
+
+        $repoLpu = $em->getRepository(ExpLpu::class)->getCtatByMu();
+        $legend = [];
+        $series = [];
+
+        foreach ($repoLpu as $lpu) {
+            $legend[] = str_replace('"', '', $lpu['name']);
+
+            $series[] = [
+                'name' => str_replace('"', '', $lpu['name']),
+                'type' => 'line',
+                'stack' => 'stk',
+                'smooth' => true,
+                'data' => [
+                    $lpu['m1'],
+                    $lpu['m2'],
+                    $lpu['m3'],
+                    $lpu['m4'],
+                    $lpu['m5'],
+                    $lpu['m6'],
+                ]
+            ];
+        }
+
+        $option = [
+            'tooltip' => [
+                'trigger' => 'axis'
+            ],
+            'legend' => [
+                'data' => $legend
+            ],
+            [
+                'grid' => [
+                    'left' => '3%',
+                    'right' => '4%',
+                    'bottom' => '3%',
+                    'containLabel' => true
+                ]
+            ],
+            'xAxis' => [
+                'type' => 'category',
+                'boundaryGap' => false,
+                'data' => ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь']
+            ],
+            'yAxis' => [
+                'type' => 'value'
+            ],
+            'series' => $series
+        ];
+
+        return $this->render('dashboard/report.html.twig', [
+            'title' => 'Отчеты',
+            'stat' => json_encode($option),
+            'breadcrumbs' => [
+                [
+                    'url' => $this->generateUrl('expert_dashboard'),
+                    'name' => 'Кабинет эксперта',
+                ],
+                [
+                    'name' => 'Отчеты',
+                ],
+            ],
+        ]);
+    }
 }
