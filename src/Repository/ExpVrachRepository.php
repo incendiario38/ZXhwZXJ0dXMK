@@ -239,7 +239,7 @@ SQL;
 select u.usl_code, u.name
 from exp_sluch_usl 
                join exp_usl u on u.usl_code = exp_sluch_usl.usl_code
- where exp_sluch_usl.id = :id
+ where exp_sluch_usl.id_sluch = :id
    and exp_sluch_usl.no_std = 1
 SQL;
 
